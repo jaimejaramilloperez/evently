@@ -1,0 +1,7 @@
+<Solution>
+
+  <Folder Name="/src/">
+    <Project Path="src/API/Evently.API/Evently.API.csproj" />
+  </Folder>
+
+</Solution>

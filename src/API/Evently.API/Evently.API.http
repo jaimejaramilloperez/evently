@@ -1,0 +1,5 @@
+@Evently.API_HostAddress = https://localhost:5001
+
+###
+GET {{Evently.API_HostAddress}}
+Accept: application/json
