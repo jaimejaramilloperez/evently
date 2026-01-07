@@ -1,0 +1,69 @@
+services:
+  evently.api:
+    container_name: evently.api
+    image: ${DOCKER_REGISTRY-}evently.api:${DOCKER_IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: src/API/Evently.API/Dockerfile
+      target: ${DOCKER_BUILD_TARGET}
+      args:
+        - BUILD_CONFIGURATION=${ASPNETCORE_BUILD_CONFIGURATION}
+    ports:
+      - ${HTTP_PORT}:${HTTP_PORT}
+      - ${HTTPS_PORT}:${HTTPS_PORT}
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: 1
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT}
+      ASPNETCORE_HTTP_PORTS: ${HTTP_PORT}
+      ASPNETCORE_HTTPS_PORTS: ${HTTPS_PORT}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: ${CERTIFICATE_PATH}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERTIFICATE_PASSWORD}
+    volumes:
+      - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
+    depends_on:
+      evently.database:
+        condition: service_healthy
+        restart: true
+
+  evently.database:
+    container_name: evently.database
+    image: postgres:18.1-alpine3.23
+    restart: unless-stopped
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      start_period: 10s
+      interval: 10s
+      retries: 3
+      timeout: 10s
+
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:9.11.0
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - pgadmin-data:/certs/server.cert
+      - pgadmin-data:/certs/server.key
+      - pgadmin-data:/pgadmin4/servers.json
+    depends_on:
+      evently.database:
+        condition: service_healthy
+        restart: true
+
+volumes:
+  postgres-data:
+  pgadmin-data:
+    external: true
