@@ -2,6 +2,7 @@
 
   <Folder Name="/src/">
     <Project Path="src/API/Evently.API/Evently.API.csproj" />
+    <Project Path="src/Modules/Events/Evently.Modules.Events/Evently.Modules.Events.csproj" />
   </Folder>
 
 </Solution>

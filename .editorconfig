@@ -21,7 +21,7 @@ tab_width = 4
 insert_final_newline = false
 
 # Do not apply code styles to generated migration files
-[**/Migrations/**/*.cs]
+[/**/Migrations/*.cs]
 generated_code = true
 
 #### .NET Coding Conventions ####

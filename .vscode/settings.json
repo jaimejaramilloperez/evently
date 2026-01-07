@@ -1,11 +1,27 @@
 {
   "cSpell.words": [
+    "appsettings",
+    "aspnet",
     "ASPNETCORE",
     "buildtransitive",
     "contentfiles",
+    "corefx",
     "dcproj",
     "dotnet",
+    "dpage",
+    "evently",
     "Evently",
-    "LINQ"
+    "healthcheck",
+    "isready",
+    "LINQ",
+    "nologo",
+    "npgsql",
+    "Npgsql",
+    "pgadmin",
+    "postgres",
+    "postgresql",
+    "slnx",
+    "usersecrets",
+    "uuidv"
   ]
 }
