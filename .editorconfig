@@ -391,6 +391,9 @@ dotnet_diagnostic.CA1019.severity = suggestion
 # CA1024: Use properties where appropriate
 dotnet_diagnostic.CA1024.severity = warning
 
+# CA1030: Use events where appropriate
+dotnet_diagnostic.CA1030.severity = silent
+
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = suggestion
 
@@ -408,18 +411,6 @@ dotnet_diagnostic.CA1062.severity = suggestion
 
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = none
-
-# CA1822: Mark members as static
-dotnet_diagnostic.CA1822.severity = suggestion
-
-# CA1848: Use the LoggerMessage delegates
-dotnet_diagnostic.CA1848.severity = suggestion
-
-# CA1849: Call async methods when in an async method
-dotnet_diagnostic.CA1849.severity = suggestion
-
-# CA1860: Avoid using 'Enumerable.Any()' extension method
-dotnet_diagnostic.CA1860.severity = suggestion
 
 # CA1304: Specify CultureInfo
 dotnet_diagnostic.CA1304.severity = suggestion
@@ -441,6 +432,21 @@ dotnet_diagnostic.CA1711.severity = suggestion
 
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
+
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = suggestion
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = suggestion
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = suggestion
+
+# CA1849: Call async methods when in an async method
+dotnet_diagnostic.CA1849.severity = suggestion
+
+# CA1860: Avoid using 'Enumerable.Any()' extension method
+dotnet_diagnostic.CA1860.severity = suggestion
 
 # CA1862: Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
 dotnet_diagnostic.CA1862.severity = suggestion

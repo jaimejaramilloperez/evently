@@ -14,6 +14,7 @@
     "healthcheck",
     "isready",
     "LINQ",
+    "Mediat",
     "nologo",
     "npgsql",
     "Npgsql",
@@ -21,6 +22,7 @@
     "postgres",
     "postgresql",
     "slnx",
+    "uninstantiated",
     "usersecrets",
     "uuidv"
   ]

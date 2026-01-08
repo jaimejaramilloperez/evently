@@ -1,8 +1,15 @@
 <Solution>
 
-  <Folder Name="/src/">
+  <Folder Name="/src/Api/">
     <Project Path="src/Api/Evently.Api/Evently.Api.csproj" />
-    <Project Path="src/Modules/Events/Evently.Modules.Events.Api/Evently.Modules.Events.Api.csproj" />
+  </Folder>
+
+  <Folder Name="/src/Modules/Events/">
+    <Project Path="src/Modules/Events/Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj" />
+    <Project Path="src/Modules/Events/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj" />
+    <Project
+      Path="src/Modules/Events/Evently.Modules.Events.Infrastructure/Evently.Modules.Events.Infrastructure.csproj" />
+    <Project Path="src/Modules/Events/Evently.Modules.Events.Presentation/Evently.Modules.Events.Presentation.csproj" />
   </Folder>
 
 </Solution>

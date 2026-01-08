@@ -1,12 +1,12 @@
-using Evently.Modules.Events.Api.Database;
-using Evently.Modules.Events.Api.Events.Models;
+using Evently.Modules.Events.Application.Events.CreateEvent;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Evently.Modules.Events.Api.Events.UseCases;
+namespace Evently.Modules.Events.Presentation.Events;
 
-public static class CreateEvent
+internal static class CreateEvent
 {
     public sealed record EventRequest
     {
@@ -19,24 +19,20 @@ public static class CreateEvent
 
     public static void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/", async (EventRequest request, EventsDbContext dbContext, CancellationToken ct) =>
+        app.MapPost("/", async (EventRequest request, ISender sender, CancellationToken ct) =>
         {
-            Event @event = new()
+            CreateEventCommand command = new()
             {
-                Id = Guid.CreateVersion7(),
                 Title = request.Title,
                 Description = request.Description,
                 Location = request.Location,
                 StartsAtUtc = request.StartsAtUtc,
                 EndsAtUtc = request.EndsAtUtc,
-                Status = EventStatus.Draft,
             };
 
-            dbContext.Add(@event);
+            Guid eventId = await sender.Send(command, ct);
 
-            await dbContext.SaveChangesAsync(ct);
-
-            return Results.Created("/events/{id}", @event.Id);
+            return Results.Created("/events/{id}", eventId);
         });
     }
 }
