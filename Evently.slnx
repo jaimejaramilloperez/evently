@@ -1,8 +1,8 @@
 <Solution>
 
   <Folder Name="/src/">
-    <Project Path="src/API/Evently.API/Evently.API.csproj" />
-    <Project Path="src/Modules/Events/Evently.Modules.Events/Evently.Modules.Events.csproj" />
+    <Project Path="src/Api/Evently.Api/Evently.Api.csproj" />
+    <Project Path="src/Modules/Events/Evently.Modules.Events.Api/Evently.Modules.Events.Api.csproj" />
   </Folder>
 
 </Solution>

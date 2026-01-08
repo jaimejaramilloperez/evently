@@ -1,7 +1,7 @@
-using Evently.Modules.Events.Events.Models;
+using Evently.Modules.Events.Api.Events.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Evently.Modules.Events.Database;
+namespace Evently.Modules.Events.Api.Database;
 
 public sealed class EventsDbContext(DbContextOptions<EventsDbContext> options)
     : DbContext(options)

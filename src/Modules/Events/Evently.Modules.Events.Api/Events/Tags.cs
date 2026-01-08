@@ -1,4 +1,4 @@
-namespace Evently.Modules.Events.Events;
+namespace Evently.Modules.Events.Api.Events;
 
 internal static class Tags
 {

@@ -1,10 +1,10 @@
-using Evently.Modules.Events.Database;
+using Evently.Modules.Events.Api.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace Evently.Modules.Events.Events.UseCases;
+namespace Evently.Modules.Events.Api.Events.UseCases;
 
 public static class GetEvent
 {

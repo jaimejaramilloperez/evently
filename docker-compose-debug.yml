@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_REGISTRY-}evently.api:${DOCKER_IMAGE_TAG}
     build:
       context: .
-      dockerfile: src/API/Evently.API/Dockerfile
+      dockerfile: src/Api/Evently.Api/Dockerfile
       target: ${DOCKER_BUILD_TARGET}
       args:
         - BUILD_CONFIGURATION=${ASPNETCORE_BUILD_CONFIGURATION}
