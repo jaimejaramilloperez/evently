@@ -1,6 +1,8 @@
 namespace Evently.Modules.Events.Presentation;
 
-public static class Tags
+internal static class Tags
 {
-    public const string Events = nameof(Events);
+    internal const string Events = nameof(Events);
+    internal const string TicketTypes = nameof(TicketTypes);
+    internal const string Categories = nameof(Categories);
 }

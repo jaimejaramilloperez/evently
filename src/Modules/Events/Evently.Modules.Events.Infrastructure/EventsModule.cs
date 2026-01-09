@@ -1,10 +1,15 @@
-using Evently.Modules.Events.Application;
 using Evently.Modules.Events.Application.Abstractions.Data;
+using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
+using Evently.Modules.Events.Domain.TicketTypes;
+using Evently.Modules.Events.Infrastructure.Categories;
 using Evently.Modules.Events.Infrastructure.Data;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Events;
-using Evently.Modules.Events.Presentation;
+using Evently.Modules.Events.Infrastructure.TicketTypes;
+using Evently.Modules.Events.Presentation.Categories;
+using Evently.Modules.Events.Presentation.Events;
+using Evently.Modules.Events.Presentation.TicketTypes;
 using FluentValidation;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +29,10 @@ public static class EventsModule
 
         services.AddMediatR(config =>
         {
-            config.RegisterServicesFromAssemblyContaining<IAssemblyReference>();
+            config.RegisterServicesFromAssemblyContaining<Application.IAssemblyReference>();
         });
 
-        services.AddValidatorsFromAssemblyContaining<IAssemblyReference>(includeInternalTypes: true);
+        services.AddValidatorsFromAssemblyContaining<Application.IAssemblyReference>(includeInternalTypes: true);
 
         services.AddInfrastructure(configuration);
 
@@ -37,6 +42,8 @@ public static class EventsModule
     public static void MapEventsModuleEndpoints(this IEndpointRouteBuilder app)
     {
         EventEndpoints.MapEndpoints(app);
+        CategoryEndpoints.MapEndpoints(app);
+        TicketTypeEndpoints.MapEndpoints(app);
     }
 
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
@@ -57,9 +64,13 @@ public static class EventsModule
             });
 
             options.UseSnakeCaseNamingConvention();
+            options.AddInterceptors();
         });
 
         services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
+
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventsDbContext>());
     }
 }

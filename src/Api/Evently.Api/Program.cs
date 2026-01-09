@@ -17,7 +17,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/health", () => Results.Ok("0K"));
+app.MapGet("/health", () => Results.Ok("0k"));
 
 RouteGroupBuilder apiGroup = app.MapGroup("/api");
 

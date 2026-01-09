@@ -1,4 +1,6 @@
 using Evently.Modules.Events.Application.Events.GetEvent;
+using Evently.Modules.Events.Domain.Abstractions.Results;
+using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,13 +12,13 @@ internal static class GetEvent
 {
     public static void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
+        app.MapGet("/{id:guid}", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
         {
             GetEventQuery query = new(id);
 
-            EventResponse? response = await sender.Send(query, ct);
+            Result<EventResponse?> result = await sender.Send(query, cancellationToken);
 
-            return response is null ? Results.NotFound() : Results.Ok(response);
+            return result.Match(Results.Ok, CustomResults.Problem);
         });
     }
 }

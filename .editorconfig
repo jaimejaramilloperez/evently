@@ -382,6 +382,9 @@ dotnet_naming_style.s_camelcase.capitalization = camel_case
 
 # .NET Code Analyzers rules
 
+# CA1000: Do not declare static members on generic types
+dotnet_diagnostic.CA1000.severity = silent
+
 # CA1002: Do not expose generic lists
 dotnet_diagnostic.CA1002.severity = suggestion
 
@@ -433,6 +436,9 @@ dotnet_diagnostic.CA1711.severity = suggestion
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
 
+# CA1805: Do not initialize unnecessarily
+dotnet_diagnostic.CA1805.severity = suggestion
+
 # CA1812: Avoid uninstantiated internal classes
 dotnet_diagnostic.CA1812.severity = suggestion
 
@@ -453,6 +459,9 @@ dotnet_diagnostic.CA1862.severity = suggestion
 
 # CA2007: Do not directly await a Task
 dotnet_diagnostic.CA2007.severity = none
+
+# CA2225: Operator overloads have named alternates
+dotnet_diagnostic.CA2225.severity = silent
 
 # CA5394: Do not use insecure randomness
 dotnet_diagnostic.CA5394.severity = warning

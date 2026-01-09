@@ -3,8 +3,8 @@ services:
     container_name: evently.database
     image: postgres:18.1-alpine3.23
     restart: unless-stopped
-    expose:
-      - 5432
+    ports:
+      - 5432:${POSTGRES_PORT}
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}

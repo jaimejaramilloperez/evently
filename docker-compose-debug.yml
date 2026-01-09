@@ -18,6 +18,7 @@ services:
       ASPNETCORE_HTTPS_PORTS: ${HTTPS_PORT}
       ASPNETCORE_Kestrel__Certificates__Default__Path: ${CERTIFICATE_PATH}
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERTIFICATE_PASSWORD}
+      ConnectionStrings__Database: ${ConnectionStrings__Database}
     volumes:
       - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
     depends_on:
