@@ -14,7 +14,7 @@ internal sealed class GetCategoriesQueryHandler(IDbConnectionFactory dbConnectio
         GetCategoriesQuery request,
         CancellationToken cancellationToken)
     {
-        await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
+        await using DbConnection dbConnection = await dbConnectionFactory.OpenConnectionAsync();
 
         const string sql =
             $"""
@@ -30,7 +30,7 @@ internal sealed class GetCategoriesQueryHandler(IDbConnectionFactory dbConnectio
             commandText: sql,
             cancellationToken: cancellationToken);
 
-        IEnumerable<CategoryResponse> categories = await connection.QueryAsync<CategoryResponse>(command);
+        IEnumerable<CategoryResponse> categories = await dbConnection.QueryAsync<CategoryResponse>(command);
 
         return categories.AsList();
     }

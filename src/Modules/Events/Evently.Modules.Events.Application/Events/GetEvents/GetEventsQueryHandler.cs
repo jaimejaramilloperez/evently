@@ -13,7 +13,7 @@ internal sealed class GetEventsQueryHandler(IDbConnectionFactory dbConnectionFac
         GetEventsQuery request,
         CancellationToken cancellationToken)
     {
-        await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
+        await using DbConnection dbConnection = await dbConnectionFactory.OpenConnectionAsync();
 
         const string sql =
             $"""
@@ -33,7 +33,7 @@ internal sealed class GetEventsQueryHandler(IDbConnectionFactory dbConnectionFac
             commandText: sql,
             cancellationToken: cancellationToken);
 
-        IEnumerable<EventResponse> events = await connection.QueryAsync<EventResponse>(command);
+        IEnumerable<EventResponse> events = await dbConnection.QueryAsync<EventResponse>(command);
 
         return events.AsList();
     }

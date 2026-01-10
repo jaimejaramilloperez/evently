@@ -14,7 +14,7 @@ internal sealed class GetTicketTypesQueryHandler(IDbConnectionFactory dbConnecti
         GetTicketTypesQuery request,
         CancellationToken cancellationToken)
     {
-        await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
+        await using DbConnection dbConnection = await dbConnectionFactory.OpenConnectionAsync();
 
         const string sql =
             $"""
@@ -36,7 +36,7 @@ internal sealed class GetTicketTypesQueryHandler(IDbConnectionFactory dbConnecti
             parameters: new { request.EventId },
             cancellationToken: cancellationToken);
 
-        IEnumerable<TicketTypeResponse> ticketTypes = await connection.QueryAsync<TicketTypeResponse>(command);
+        IEnumerable<TicketTypeResponse> ticketTypes = await dbConnection.QueryAsync<TicketTypeResponse>(command);
 
         return ticketTypes.AsList();
     }
