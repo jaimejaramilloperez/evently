@@ -3,21 +3,17 @@ using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
 using Evently.Modules.Events.Domain.TicketTypes;
 using Evently.Modules.Events.Infrastructure.Categories;
-using Evently.Modules.Events.Infrastructure.Data;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Events;
 using Evently.Modules.Events.Infrastructure.TicketTypes;
 using Evently.Modules.Events.Presentation.Categories;
 using Evently.Modules.Events.Presentation.Events;
 using Evently.Modules.Events.Presentation.TicketTypes;
-using FluentValidation;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Npgsql;
 
 namespace Evently.Modules.Events.Infrastructure;
 
@@ -25,15 +21,6 @@ public static class EventsModule
 {
     public static IServiceCollection AddEventsModule(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton(TimeProvider.System);
-
-        services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssemblyContaining<Application.IAssemblyReference>();
-        });
-
-        services.AddValidatorsFromAssemblyContaining<Application.IAssemblyReference>(includeInternalTypes: true);
-
         services.AddInfrastructure(configuration);
 
         return services;
@@ -50,10 +37,6 @@ public static class EventsModule
     {
         string? databaseConnectionString = configuration.GetConnectionString("Database")
             ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
-
-        services.TryAddSingleton(new NpgsqlDataSourceBuilder(databaseConnectionString).Build());
-
-        services.AddScoped<IDbConnectionFactory, DbConnectionFactory>();
 
         services.AddDbContext<EventsDbContext>(options =>
         {

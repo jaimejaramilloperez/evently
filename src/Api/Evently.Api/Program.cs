@@ -1,9 +1,14 @@
 using Evently.Api.Extensions;
+using Evently.Common.Application;
+using Evently.Common.Infrastructure;
 using Evently.Modules.Events.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyReference.Assembly]);
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddEventsModule(builder.Configuration);
 

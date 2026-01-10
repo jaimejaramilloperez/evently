@@ -1,7 +1,7 @@
+using Evently.Common.Application.Messaging;
+using Evently.Common.Domain.Results;
 using Evently.Modules.Events.Application.Abstractions.Data;
-using Evently.Modules.Events.Application.Abstractions.Messaging;
 using Evently.Modules.Events.Application.Events.GetEvents;
-using Evently.Modules.Events.Domain.Abstractions.Results;
 using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
 

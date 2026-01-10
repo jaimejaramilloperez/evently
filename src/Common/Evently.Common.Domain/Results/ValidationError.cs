@@ -1,4 +1,4 @@
-namespace Evently.Modules.Events.Domain.Abstractions.Results;
+namespace Evently.Common.Domain.Results;
 
 public sealed record ValidationError : Error
 {

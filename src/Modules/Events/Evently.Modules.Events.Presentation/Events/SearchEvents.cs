@@ -1,5 +1,5 @@
-﻿using Evently.Modules.Events.Application.Events.SearchEvents;
-using Evently.Modules.Events.Domain.Abstractions.Results;
+﻿using Evently.Common.Domain.Results;
+using Evently.Modules.Events.Application.Events.SearchEvents;
 using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;

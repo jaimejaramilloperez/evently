@@ -1,13 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="../../../Common/Evently.Common.Application/Evently.Common.Application.csproj" />
     <ProjectReference Include="../Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dapper" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-    <PackageReference Include="MediatR" />
   </ItemGroup>
 
 </Project>

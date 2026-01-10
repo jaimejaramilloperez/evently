@@ -1,7 +1,7 @@
-﻿using Evently.Modules.Events.Application.Abstractions.Data;
-using Evently.Modules.Events.Application.Abstractions.Messaging;
+﻿using Evently.Common.Application.Messaging;
+using Evently.Common.Domain.Results;
+using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Application.TicketTypes.GetTicketType;
-using Evently.Modules.Events.Domain.Abstractions.Results;
 using Evently.Modules.Events.Domain.Events;
 using Evently.Modules.Events.Domain.TicketTypes;
 

@@ -1,4 +1,4 @@
-namespace Evently.Modules.Events.Domain.Abstractions.DomainEvents;
+namespace Evently.Common.Domain.DomainEvents;
 
 public interface IDomainEvent
 {
