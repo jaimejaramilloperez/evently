@@ -7,7 +7,8 @@ services:
       dockerfile: src/Api/Evently.Api/Dockerfile
       target: ${DOCKER_BUILD_TARGET}
       args:
-        - BUILD_CONFIGURATION=${ASPNETCORE_BUILD_CONFIGURATION}
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+    restart: unless-stopped
     ports:
       - ${HTTP_PORT}:${HTTP_PORT}
       - ${HTTPS_PORT}:${HTTPS_PORT}
@@ -18,7 +19,8 @@ services:
       ASPNETCORE_HTTPS_PORTS: ${HTTPS_PORT}
       ASPNETCORE_Kestrel__Certificates__Default__Path: ${CERTIFICATE_PATH}
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERTIFICATE_PASSWORD}
-      ConnectionStrings__Database: ${ConnectionStrings__Database}
+      Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
+      ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
     volumes:
       - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
     depends_on:
@@ -45,8 +47,8 @@ services:
       retries: 3
       timeout: 10s
 
-  pgAdmin:
-    container_name: pgAdmin
+  evently.pgAdmin:
+    container_name: evently.pgAdmin
     image: dpage/pgadmin4:9.11.0
     restart: unless-stopped
     ports:
@@ -64,7 +66,22 @@ services:
         condition: service_healthy
         restart: true
 
+  evently.seq:
+    container_name: evently.seq
+    image: datalust/seq:2025.2
+    restart: unless-stopped
+    expose:
+      - 5341
+    ports:
+      - 8081:80
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_PASSWORD: ${SEQ_PASSWORD}
+    volumes:
+      - seq-data:/data
+
 volumes:
   postgres-data:
   pgadmin-data:
     external: true
+  seq-data:

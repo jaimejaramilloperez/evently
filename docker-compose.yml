@@ -18,8 +18,8 @@ services:
       retries: 3
       timeout: 10s
 
-  pgAdmin:
-    container_name: pgAdmin
+  evently.pgAdmin:
+    container_name: evently.pgAdmin
     image: dpage/pgadmin4:9.11.0
     restart: unless-stopped
     ports:
@@ -37,7 +37,21 @@ services:
         condition: service_healthy
         restart: true
 
+  evently.seq:
+    container_name: evently.seq
+    image: datalust/seq:2025.2
+    restart: unless-stopped
+    ports:
+      - 8081:80
+      - 5341:5341
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_PASSWORD: ${SEQ_PASSWORD}
+    volumes:
+      - seq-data:/data
+
 volumes:
   postgres-data:
   pgadmin-data:
     external: true
+  seq-data:

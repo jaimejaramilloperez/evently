@@ -4,6 +4,7 @@
     <PackageReference Include="Dapper" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="Serilog" />
   </ItemGroup>
 
   <ItemGroup>
