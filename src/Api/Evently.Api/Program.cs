@@ -10,6 +10,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyReference.Assembly]);
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Configuration.AddModuleConfiguration(["events"]);
+
 builder.Services.AddEventsModule(builder.Configuration);
 
 var app = builder.Build();
