@@ -39,6 +39,10 @@ public static class InfrastructureConfiguration
 
         services.TryAddSingleton<ICacheService, CacheService>();
 
+        services.AddHealthChecks()
+            .AddNpgSql(databaseConnectionString)
+            .AddRedis(redisConnectionString);
+
         return services;
     }
 }

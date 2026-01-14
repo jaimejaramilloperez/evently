@@ -4,6 +4,7 @@ using Evently.Api.Middlewares;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Modules.Events.Infrastructure;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Http.Features;
 using Serilog;
 
@@ -45,7 +46,10 @@ app.UseExceptionHandler();
 
 app.UseSerilogRequestLogging();
 
-app.MapGet("/health", () => Results.Ok("0k"));
+app.MapHealthChecks("/health", new()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponseNoExceptionDetails,
+});
 
 RouteGroupBuilder apiGroup = app.MapGroup("/api");
 
