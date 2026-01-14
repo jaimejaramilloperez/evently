@@ -1,6 +1,7 @@
 ﻿using Evently.Common.Domain.Results;
+using Evently.Common.Presentation.ApiResults;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Events.SearchEvents;
-using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.Events;
 
-internal static class SearchEvents
+internal sealed class SearchEvents : IEndpoint
 {
     internal sealed record Request
     {
@@ -29,9 +30,9 @@ internal static class SearchEvents
         public int PageSize { get; init; } = 15;
     }
 
-    public static void MapEndpoint(IEndpointRouteBuilder app)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/search", async ([AsParameters] Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet("/events/search", async ([AsParameters] Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             SearchEventsQuery query = new()
             {
@@ -45,6 +46,7 @@ internal static class SearchEvents
             Result<SearchEventsResponse> result = await sender.Send(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
-        });
+        })
+        .WithTags(Tags.Events);
     }
 }

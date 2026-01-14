@@ -1,3 +1,4 @@
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
 using Evently.Modules.Events.Domain.Events;
@@ -6,10 +7,6 @@ using Evently.Modules.Events.Infrastructure.Categories;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Events;
 using Evently.Modules.Events.Infrastructure.TicketTypes;
-using Evently.Modules.Events.Presentation.Categories;
-using Evently.Modules.Events.Presentation.Events;
-using Evently.Modules.Events.Presentation.TicketTypes;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -21,16 +18,11 @@ public static class EventsModule
 {
     public static IServiceCollection AddEventsModule(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddEndpoints(Presentation.AssemblyReference.Assembly);
+
         services.AddInfrastructure(configuration);
 
         return services;
-    }
-
-    public static void MapEventsModuleEndpoints(this IEndpointRouteBuilder app)
-    {
-        EventEndpoints.MapEndpoints(app);
-        CategoryEndpoints.MapEndpoints(app);
-        TicketTypeEndpoints.MapEndpoints(app);
     }
 
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

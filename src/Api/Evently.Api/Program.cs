@@ -3,6 +3,7 @@ using Evently.Api.Extensions;
 using Evently.Api.Middlewares;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Infrastructure;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Http.Features;
@@ -53,6 +54,6 @@ app.MapHealthChecks("/health", new()
 
 RouteGroupBuilder apiGroup = app.MapGroup("/api");
 
-apiGroup.MapEventsModuleEndpoints();
+app.MapEndpoints(apiGroup);
 
 app.Run();

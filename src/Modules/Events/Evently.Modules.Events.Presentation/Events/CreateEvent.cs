@@ -1,7 +1,8 @@
 using Evently.Common.Domain.Results;
+using Evently.Common.Presentation.ApiResults;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Events.CreateEvent;
 using Evently.Modules.Events.Application.Events.GetEvents;
-using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.Events;
 
-internal static class CreateEvent
+internal sealed class CreateEvent : IEndpoint
 {
     internal sealed record Request
     {
@@ -22,9 +23,9 @@ internal static class CreateEvent
         public DateTime? EndsAtUtc { get; init; }
     }
 
-    public static void MapEndpoint(IEndpointRouteBuilder app)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/", async ([FromBody] Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("/events", async ([FromBody] Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             CreateEventCommand command = new()
             {
@@ -41,6 +42,7 @@ internal static class CreateEvent
             return result.Match(() =>
                 Results.Created(new Uri($"/api/events/{result.Value.Id}", UriKind.Relative), result.Value),
                 CustomResults.Problem);
-        });
+        })
+        .WithTags(Tags.Events);
     }
 }
