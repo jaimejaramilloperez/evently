@@ -28,7 +28,7 @@ services:
       evently.database:
         condition: service_healthy
         restart: true
-      evently.redis:
+      evently.cache:
         condition: service_healthy
         restart: true
 
@@ -51,8 +51,8 @@ services:
       retries: 3
       timeout: 10s
 
-  evently.redis:
-    container_name: evently.redis
+  evently.cache:
+    container_name: evently.cache
     image: redis:8.4.0-alpine3.22
     restart: unless-stopped
     command: >
@@ -94,7 +94,7 @@ services:
     volumes:
       - redis-insight-data:/data
     depends_on:
-      evently.redis:
+      evently.cache:
         condition: service_healthy
         restart: true
 
