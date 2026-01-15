@@ -1,3 +1,4 @@
+using Evently.Common.Infrastructure.Interceptors;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
@@ -30,7 +31,7 @@ public static class EventsModule
         string? databaseConnectionString = configuration.GetConnectionString("Database")
             ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
 
-        services.AddDbContext<EventsDbContext>(options =>
+        services.AddDbContext<EventsDbContext>((sp, options) =>
         {
             options.UseNpgsql(databaseConnectionString, npgsqlOptions =>
             {
@@ -39,7 +40,7 @@ public static class EventsModule
             });
 
             options.UseSnakeCaseNamingConvention();
-            options.AddInterceptors();
+            options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
         });
 
         services.AddScoped<IEventRepository, EventRepository>();
