@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="../../Modules/Events/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj" />
+    <ProjectReference Include="../Evently.Common.Application/Evently.Common.Application.csproj" />
   </ItemGroup>
 
 </Project>
