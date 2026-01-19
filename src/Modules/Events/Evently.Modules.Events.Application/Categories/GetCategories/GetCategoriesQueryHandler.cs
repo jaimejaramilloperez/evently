@@ -18,13 +18,13 @@ internal sealed class GetCategoriesQueryHandler(IDbConnectionFactory dbConnectio
 
         const string sql =
             $"""
-             SELECT
+            SELECT
                 id AS {nameof(CategoryResponse.Id)},
                 name AS {nameof(CategoryResponse.Name)},
                 is_archived AS {nameof(CategoryResponse.IsArchived)}
-             FROM
+            FROM
                 events.categories
-             """;
+            """;
 
         CommandDefinition command = new(
             commandText: sql,

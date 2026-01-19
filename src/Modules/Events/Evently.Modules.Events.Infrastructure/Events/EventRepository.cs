@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Evently.Modules.Events.Infrastructure.Events;
 
-internal sealed class EventRepository(EventsDbContext dbContext)
-    : IEventRepository
+internal sealed class EventRepository(EventsDbContext dbContext) : IEventRepository
 {
     public Task<Event?> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {

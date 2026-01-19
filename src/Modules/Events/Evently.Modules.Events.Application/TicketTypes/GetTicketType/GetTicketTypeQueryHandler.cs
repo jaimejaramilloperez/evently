@@ -18,18 +18,18 @@ internal sealed class GetTicketTypeQueryHandler(IDbConnectionFactory dbConnectio
 
         const string sql =
             $"""
-             SELECT
+            SELECT
                 id AS {nameof(TicketTypeResponse.Id)},
                 event_id AS {nameof(TicketTypeResponse.EventId)},
                 name AS {nameof(TicketTypeResponse.Name)},
                 price AS {nameof(TicketTypeResponse.Price)},
                 currency AS {nameof(TicketTypeResponse.Currency)},
                 quantity AS {nameof(TicketTypeResponse.Quantity)}
-             FROM
+            FROM
                 events.ticket_types
-             WHERE
+            WHERE
                 id = @TicketTypeId
-             """;
+            """;
 
         CommandDefinition command = new(
             commandText: sql,

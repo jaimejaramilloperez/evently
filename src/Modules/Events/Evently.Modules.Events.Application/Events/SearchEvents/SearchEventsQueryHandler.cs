@@ -47,7 +47,7 @@ internal sealed class SearchEventsQueryHandler(IDbConnectionFactory dbConnection
     {
         const string sql =
             $"""
-             SELECT
+            SELECT
                 id AS {nameof(EventResponse.Id)},
                 category_id AS {nameof(EventResponse.CategoryId)},
                 title AS {nameof(EventResponse.Title)},
@@ -55,18 +55,18 @@ internal sealed class SearchEventsQueryHandler(IDbConnectionFactory dbConnection
                 location AS {nameof(EventResponse.Location)},
                 starts_at_utc AS {nameof(EventResponse.StartsAtUtc)},
                 ends_at_utc AS {nameof(EventResponse.EndsAtUtc)}
-             FROM
+            FROM
                 events.events
-             WHERE
+            WHERE
                 status = @Status AND
                 (@CategoryId IS NULL OR category_id = @CategoryId) AND
                 (@StartDate::timestamp IS NULL OR starts_at_utc >= @StartDate::timestamp) AND
                 (@EndDate::timestamp IS NULL OR ends_at_utc >= @EndDate::timestamp)
-             ORDER BY
+            ORDER BY
                 starts_at_utc, id
-             OFFSET @Skip
-             LIMIT @Take
-             """;
+            OFFSET @Skip
+            LIMIT @Take
+            """;
 
         CommandDefinition command = new(
             commandText: sql,

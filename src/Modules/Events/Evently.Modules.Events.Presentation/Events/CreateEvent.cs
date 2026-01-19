@@ -6,7 +6,6 @@ using Evently.Modules.Events.Application.Events.GetEvents;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.Events;
@@ -25,7 +24,7 @@ internal sealed class CreateEvent : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/events", async ([FromBody] Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("/events", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             CreateEventCommand command = new()
             {

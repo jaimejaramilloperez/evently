@@ -16,15 +16,15 @@ internal sealed class GetCategoryQueryHandler(IDbConnectionFactory dbConnectionF
 
         const string sql =
             $"""
-             SELECT
+            SELECT
                 id AS {nameof(CategoryResponse.Id)},
                 name AS {nameof(CategoryResponse.Name)},
                 is_archived AS {nameof(CategoryResponse.IsArchived)}
-             FROM
+            FROM
                 events.categories
-             WHERE
+            WHERE
                 id = @CategoryId
-             """;
+            """;
 
         CommandDefinition command = new(
             commandText: sql,
