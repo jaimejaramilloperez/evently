@@ -21,10 +21,12 @@ internal sealed class UpdateUserProfile : IEndpoint
     {
         app.MapPut("users/{id:guid}/profile", async (Guid id, Request request, ISender sender, CancellationToken cancellationToken) =>
         {
-            UpdateUserCommand command = new(
-                id,
-                request.FirstName,
-                request.LastName);
+            UpdateUserCommand command = new()
+            {
+                UserId = id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+            };
 
             Result result = await sender.Send(command, cancellationToken);
 
