@@ -24,7 +24,7 @@ internal sealed class SearchEvents : IEndpoint
         public DateTime? EndDate { get; init; }
 
         [FromQuery]
-        public int Page { get; init; } = 0;
+        public int Page { get; init; } = 1;
 
         [FromQuery(Name = "page_size")]
         public int PageSize { get; init; } = 15;
@@ -38,8 +38,8 @@ internal sealed class SearchEvents : IEndpoint
             {
                 CategoryId = request.CategoryId,
                 StartDate = request.StartDate,
+                Page = request.Page,
                 PageSize = request.PageSize,
-                Page = request.PageSize,
                 EndDate = request.EndDate,
             };
 
