@@ -1,12 +1,12 @@
-using Evently.Modules.Users.Domain.Users;
+﻿using Evently.Modules.Ticketing.Domain.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Evently.Modules.Users.Infrastructure.Users;
+namespace Evently.Modules.Ticketing.Infrastructure.Customers;
 
-internal sealed class UserDatabaseConfiguration : IEntityTypeConfiguration<User>
+internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<Customer> builder)
     {
         builder.HasKey(x => x.Id);
 

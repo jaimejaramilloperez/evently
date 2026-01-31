@@ -4,5 +4,5 @@ namespace Evently.Modules.Users.Domain.Users.DomainEvents;
 
 public sealed class UserRegisteredDomainEvent(Guid userId) : DomainEvent
 {
-    public Guid UserId { get; init; } = userId;
+    public Guid UserId => userId;
 }

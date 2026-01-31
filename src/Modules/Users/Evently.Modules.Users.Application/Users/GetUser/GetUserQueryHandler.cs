@@ -30,7 +30,7 @@ internal sealed class GetUserQueryHandler(IDbConnectionFactory dbConnectionFacto
             parameters: new { UserId = request.UserId },
             cancellationToken: cancellationToken);
 
-        UserResponse? user = await connection.QuerySingleOrDefaultAsync<UserResponse>(command);
+        UserResponse? user = await connection.QueryFirstOrDefaultAsync<UserResponse>(command);
 
         if (user is null)
         {

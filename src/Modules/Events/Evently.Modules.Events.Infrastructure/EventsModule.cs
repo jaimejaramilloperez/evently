@@ -30,7 +30,7 @@ public static class EventsModule
 
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        string? databaseConnectionString = configuration.GetConnectionString("Database")
+        string databaseConnectionString = configuration.GetConnectionString("Database")
             ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
 
         services.AddDbContext<EventsDbContext>((sp, options) =>

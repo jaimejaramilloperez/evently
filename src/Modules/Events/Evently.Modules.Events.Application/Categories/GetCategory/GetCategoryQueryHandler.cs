@@ -31,7 +31,7 @@ internal sealed class GetCategoryQueryHandler(IDbConnectionFactory dbConnectionF
             parameters: new { request.CategoryId },
             cancellationToken: cancellationToken);
 
-        CategoryResponse? category = await dbConnection.QuerySingleOrDefaultAsync<CategoryResponse>(command);
+        CategoryResponse? category = await dbConnection.QueryFirstOrDefaultAsync<CategoryResponse>(command);
 
         if (category is null)
         {

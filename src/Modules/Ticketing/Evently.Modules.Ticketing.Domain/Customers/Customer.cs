@@ -1,37 +1,29 @@
-﻿using Evently.Common.Domain;
+using Evently.Common.Domain;
 using Evently.Common.Domain.Results;
-using Evently.Modules.Users.Domain.Users.DomainEvents;
 
-namespace Evently.Modules.Users.Domain.Users;
+namespace Evently.Modules.Ticketing.Domain.Customers;
 
-public sealed class User : Entity
+public sealed class Customer : Entity
 {
     public Guid Id { get; private set; }
     public string Email { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
 
-    public static Guid CreateUserId()
+    public static Customer Create(Guid id, string email, string firstName, string lastName)
     {
-        return Guid.CreateVersion7();
-    }
-
-    public static User Create(string email, string firstName, string lastName)
-    {
-        User user = new()
+        Customer user = new()
         {
-            Id = CreateUserId(),
+            Id = id,
             Email = email,
             FirstName = firstName,
             LastName = lastName,
         };
 
-        user.RaiseEvent(new UserRegisteredDomainEvent(user.Id));
-
         return user;
     }
 
-    private User()
+    private Customer()
     {
     }
 
@@ -44,8 +36,6 @@ public sealed class User : Entity
 
         FirstName = firstName;
         LastName = lastName;
-
-        RaiseEvent(new UserProfileUpdatedDomainEvent(Id, FirstName, LastName));
 
         return Result.Success();
     }

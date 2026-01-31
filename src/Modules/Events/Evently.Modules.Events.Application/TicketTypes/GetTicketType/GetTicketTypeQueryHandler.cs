@@ -36,7 +36,7 @@ internal sealed class GetTicketTypeQueryHandler(IDbConnectionFactory dbConnectio
             parameters: new { request.TicketTypeId },
             cancellationToken: cancellationToken);
 
-        TicketTypeResponse? ticketType = await dbConnection.QuerySingleOrDefaultAsync<TicketTypeResponse>(command);
+        TicketTypeResponse? ticketType = await dbConnection.QueryFirstOrDefaultAsync<TicketTypeResponse>(command);
 
         if (ticketType is null)
         {
