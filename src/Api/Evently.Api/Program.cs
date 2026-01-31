@@ -34,7 +34,9 @@ builder.Services.AddApplication([
     Evently.Modules.Ticketing.Application.AssemblyReference.Assembly,
 ]);
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, [
+    TicketingModule.ConfigureConsumers,
+]);
 
 builder.Configuration.AddModuleConfiguration(["events", "users", "ticketing"]);
 

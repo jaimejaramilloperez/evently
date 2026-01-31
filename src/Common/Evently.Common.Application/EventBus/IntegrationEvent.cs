@@ -1,17 +1,17 @@
-namespace Evently.Common.Domain.DomainEvents;
+namespace Evently.Common.Application.EventBus;
 
-public abstract class DomainEvent : IDomainEvent
+public abstract class IntegrationEvent : IIntegrationEvent
 {
     public Guid Id { get; init; }
     public DateTime OccurredAtUtc { get; init; }
 
-    protected DomainEvent()
+    protected IntegrationEvent()
     {
         Id = Guid.CreateVersion7();
         OccurredAtUtc = DateTime.UtcNow;
     }
 
-    protected DomainEvent(Guid id, DateTime occurredAtUtc)
+    protected IntegrationEvent(Guid id, DateTime occurredAtUtc)
     {
         Id = id;
         OccurredAtUtc = occurredAtUtc;

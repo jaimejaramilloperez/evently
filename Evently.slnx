@@ -28,15 +28,15 @@
       Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Infrastructure/Evently.Modules.Ticketing.Infrastructure.csproj" />
     <Project
       Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Presentation/Evently.Modules.Ticketing.Presentation.csproj" />
-    <Project Path="src/Modules/Ticketing/Evently.Modules.Ticketing.PublicApi/Evently.Modules.Ticketing.PublicApi.csproj" />
   </Folder>
 
   <Folder Name="/src/Modules/Users/">
     <Project Path="src/Modules/Users/Evently.Modules.Users.Application/Evently.Modules.Users.Application.csproj" />
     <Project Path="src/Modules/Users/Evently.Modules.Users.Domain/Evently.Modules.Users.Domain.csproj" />
     <Project Path="src/Modules/Users/Evently.Modules.Users.Infrastructure/Evently.Modules.Users.Infrastructure.csproj" />
+    <Project
+      Path="src/Modules/Users/Evently.Modules.Users.IntegrationEvents/Evently.Modules.Users.IntegrationEvents.csproj" />
     <Project Path="src/Modules/Users/Evently.Modules.Users.Presentation/Evently.Modules.Users.Presentation.csproj" />
-    <Project Path="src/Modules/Users/Evently.Modules.Users.PublicApi/Evently.Modules.Users.PublicApi.csproj" />
   </Folder>
 
 </Solution>

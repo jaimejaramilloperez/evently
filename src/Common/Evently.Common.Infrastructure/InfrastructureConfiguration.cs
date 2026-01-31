@@ -1,8 +1,10 @@
 using Evently.Common.Application.Caching;
 using Evently.Common.Application.Data;
+using Evently.Common.Application.EventBus;
 using Evently.Common.Infrastructure.Caching;
 using Evently.Common.Infrastructure.Data;
 using Evently.Common.Infrastructure.Interceptors;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,7 +17,8 @@ public static class InfrastructureConfiguration
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        Action<IRegistrationConfigurator>[] moduleConfigureConsumers)
     {
         string? databaseConnectionString = configuration.GetConnectionString("Database")
             ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
@@ -49,6 +52,23 @@ public static class InfrastructureConfiguration
         }
 
         services.TryAddSingleton<ICacheService, CacheService>();
+
+        services.TryAddSingleton<IEventBus, EventBus.EventBus>();
+
+        services.AddMassTransit(options =>
+        {
+            options.SetKebabCaseEndpointNameFormatter();
+
+            foreach (Action<IRegistrationConfigurator> configureConsumer in moduleConfigureConsumers)
+            {
+                configureConsumer(options);
+            }
+
+            options.UsingInMemory((context, config) =>
+            {
+                config.ConfigureEndpoints(context);
+            });
+        });
 
         services.AddHealthChecks()
             .AddNpgSql(databaseConnectionString)
