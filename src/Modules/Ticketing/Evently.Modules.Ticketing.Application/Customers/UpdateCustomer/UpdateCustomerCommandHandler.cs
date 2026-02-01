@@ -1,6 +1,6 @@
 ﻿using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
-using Evently.Modules.Ticketing.Application.Abstractions;
+using Evently.Modules.Ticketing.Application.Abstractions.Data;
 using Evently.Modules.Ticketing.Domain.Customers;
 
 namespace Evently.Modules.Ticketing.Application.Customers.UpdateCustomer;

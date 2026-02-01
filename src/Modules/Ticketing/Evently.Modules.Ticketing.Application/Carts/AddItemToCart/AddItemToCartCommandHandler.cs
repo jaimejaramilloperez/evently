@@ -2,7 +2,7 @@ using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Events.PublicApi;
 using Evently.Modules.Ticketing.Domain.Customers;
-using Evently.Modules.Ticketing.Domain.TicketTypes;
+using Evently.Modules.Ticketing.Domain.Tickets;
 
 namespace Evently.Modules.Ticketing.Application.Carts.AddItemToCart;
 
@@ -25,7 +25,7 @@ internal sealed class AddItemToCartCommandHandler(
 
         if (ticketType is null)
         {
-            return Result.Failure(TicketTypesErrors.NotFound(request.TicketTypeId));
+            return Result.Failure(TicketErrors.NotFound(request.TicketTypeId));
         }
 
         CartItem cartItem = new()

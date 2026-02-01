@@ -17,6 +17,7 @@
     "LINQ",
     "Mediat",
     "nologo",
+    "NOWAIT",
     "npgsql",
     "Npgsql",
     "pgadmin",

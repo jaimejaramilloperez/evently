@@ -11,8 +11,7 @@ internal sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id)
-            .HasDefaultValueSql("uuidv7()")
-            .ValueGeneratedOnAdd();
+            .ValueGeneratedNever();
 
         builder.Property(x => x.FirstName)
             .HasMaxLength(200);
