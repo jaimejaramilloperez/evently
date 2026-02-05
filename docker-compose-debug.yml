@@ -66,6 +66,22 @@ services:
       retries: 3
       timeout: 10s
 
+  evently.identity:
+    container_name: evently.identity
+    image: quay.io/keycloak/keycloak:26.5.2
+    restart: unless-stopped
+    command: start-dev --import-realm
+    ports:
+      - 18000:8080
+      - 18001:9000
+    environment:
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./files:/opt/keycloak/data/import
+
   evently.pgAdmin:
     container_name: evently.pgAdmin
     image: dpage/pgadmin4:9.11.0
@@ -118,3 +134,4 @@ volumes:
     external: true
   redis-insight-data:
   seq-data:
+  keycloak-data:
