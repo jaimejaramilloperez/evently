@@ -21,6 +21,7 @@ internal sealed class GetTicketType : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
+        .RequireAuthorization()
         .WithTags(Tags.TicketTypes);
     }
 }

@@ -63,6 +63,10 @@ app.MapHealthChecks("/health", new()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponseNoExceptionDetails,
 });
 
+app.UseAuthentication();
+
+app.UseAuthorization();
+
 RouteGroupBuilder apiGroup = app.MapGroup("/api");
 
 app.MapEndpoints(apiGroup);

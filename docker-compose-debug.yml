@@ -22,6 +22,12 @@ services:
       Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
       ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
       ConnectionStrings__Cache: ${CACHE_CONNECTION_STRING}
+      Authentication_Audience: ${AUTHENTICATION_AUDIENCE}
+      Authentication__TokenValidationParameters__ValidIssuers__1: ${AUTHENTICATION_VALID_ISSUERS_1}
+      Authentication__TokenValidationParameters__ValidIssuers__2: ${AUTHENTICATION_VALID_ISSUERS_2}
+      Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
+      Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
+      KeyCloak__HealthUrl: ${KEYCLOAK_HEALTH_Url}
     volumes:
       - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
     depends_on:
@@ -73,7 +79,8 @@ services:
     command: start-dev --import-realm
     ports:
       - 18000:8080
-      - 18001:9000
+    expose:
+      - 9000
     environment:
       KC_HEALTH_ENABLED: "true"
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_USERNAME}

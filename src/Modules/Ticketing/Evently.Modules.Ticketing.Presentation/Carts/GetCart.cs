@@ -22,6 +22,7 @@ internal sealed class GetCart : IEndpoint
 
             return result.Match(() => Results.Ok(result.Value), CustomResults.Problem);
         })
+        .RequireAuthorization()
         .WithTags(Tags.Carts);
     }
 }

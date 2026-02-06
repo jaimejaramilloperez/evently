@@ -33,6 +33,7 @@ internal sealed class AddToCart : IEndpoint
 
             return result.Match(() => Results.NoContent(), CustomResults.Problem);
         })
+        .RequireAuthorization()
         .WithTags(Tags.Carts);
     }
 }

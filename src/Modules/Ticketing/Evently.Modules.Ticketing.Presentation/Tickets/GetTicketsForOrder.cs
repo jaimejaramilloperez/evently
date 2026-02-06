@@ -22,6 +22,7 @@ internal sealed class GetTicketsForOrder : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
+        .RequireAuthorization()
         .WithTags(Tags.Tickets);
     }
 }
