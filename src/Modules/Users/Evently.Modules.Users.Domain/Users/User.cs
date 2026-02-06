@@ -7,6 +7,7 @@ namespace Evently.Modules.Users.Domain.Users;
 public sealed class User : Entity
 {
     public Guid Id { get; private set; }
+    public Guid IdentityId { get; private set; }
     public string Email { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
@@ -16,11 +17,12 @@ public sealed class User : Entity
         return Guid.CreateVersion7();
     }
 
-    public static User Create(string email, string firstName, string lastName)
+    public static User Create(string email, string firstName, string lastName, Guid identityId)
     {
         User user = new()
         {
             Id = CreateUserId(),
+            IdentityId = identityId,
             Email = email,
             FirstName = firstName,
             LastName = lastName,

@@ -14,6 +14,9 @@ internal sealed class UserDatabaseConfiguration : IEntityTypeConfiguration<User>
             .HasDefaultValueSql("uuidv7()")
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.IdentityId)
+            .IsRequired();
+
         builder.Property(x => x.FirstName)
             .HasMaxLength(200);
 
@@ -22,6 +25,9 @@ internal sealed class UserDatabaseConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.Email)
             .HasMaxLength(300);
+
+        builder.HasIndex(x => x.IdentityId)
+            .IsUnique();
 
         builder.HasIndex(x => x.Email)
             .IsUnique();

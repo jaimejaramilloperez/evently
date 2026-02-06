@@ -28,6 +28,11 @@ services:
       Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
       Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
       KeyCloak__HealthUrl: ${KEYCLOAK_HEALTH_Url}
+      Users__KeyCloak__AdminUrl: ${USERS_KEYCLOAK_ADMIN_URL}
+      Users__KeyCloak__TokenUrl: ${USERS_KEYCLOAK_TOKEN_URL}
+      Users__KeyCloak__ConfidentialClientId: ${USERS_KEYCLOAK_CONFIDENTIAL_CLIENT_ID}
+      Users__KeyCloak__ConfidentialClientSecret: ${USERS_KEYCLOAK_CONFIDENTIAL_CLIENT_SECRET}
+      Users__KeyCloak__PublicClientId: ${USERS_KEYCLOAK_PUBLIC_CLIENT_ID}
     volumes:
       - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
     depends_on:
