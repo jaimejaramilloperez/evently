@@ -8,7 +8,7 @@ internal sealed class CustomerRepository(TicketingDbContext context) : ICustomer
 {
     public async Task<Customer?> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await context.Customers.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        return await context.Customers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public void Insert(Customer customer)

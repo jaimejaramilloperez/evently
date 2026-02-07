@@ -40,7 +40,7 @@ internal sealed class CreateTicketType : IEndpoint
                 Results.Created(new Uri($"/api/ticket-types/{result.Value.Id}"), result.Value),
                 CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.ModifyTicketTypes)
         .WithTags(Tags.TicketTypes);
     }
 }

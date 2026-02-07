@@ -42,7 +42,7 @@ internal sealed class CreateEvent : IEndpoint
                 Results.Created(new Uri($"/api/events/{result.Value.Id}", UriKind.Relative), result.Value),
                 CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.ModifyEvents)
         .WithTags(Tags.Events);
     }
 }

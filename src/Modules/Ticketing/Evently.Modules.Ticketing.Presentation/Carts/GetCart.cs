@@ -1,6 +1,7 @@
 using Evently.Common.Domain.Results;
 using Evently.Common.Presentation.ApiResults;
 using Evently.Common.Presentation.Endpoints;
+using Evently.Modules.Ticketing.Application.Abstractions.Authentication;
 using Evently.Modules.Ticketing.Application.Carts;
 using Evently.Modules.Ticketing.Application.Carts.GetCart;
 using MediatR;
@@ -14,15 +15,15 @@ internal sealed class GetCart : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/carts/{customerId:guid}", async (Guid customerId, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet("/carts", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken) =>
         {
-            GetCartQuery query = new(customerId);
+            GetCartQuery query = new(customerContext.CustomerId);
 
             Result<Cart> result = await sender.Send(query, cancellationToken);
 
             return result.Match(() => Results.Ok(result.Value), CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.GetCart)
         .WithTags(Tags.Carts);
     }
 }

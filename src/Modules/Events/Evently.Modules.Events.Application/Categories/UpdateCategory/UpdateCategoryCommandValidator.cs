@@ -6,11 +6,11 @@ internal sealed class UpdateCategoryCommandValidator : AbstractValidator<UpdateC
 {
     public UpdateCategoryCommandValidator()
     {
-        RuleFor(c => c.CategoryId)
+        RuleFor(x => x.CategoryId)
             .NotEmpty()
             .WithMessage("The category id is required.");
 
-        RuleFor(c => c.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("The name is required.")
             .MaximumLength(200)

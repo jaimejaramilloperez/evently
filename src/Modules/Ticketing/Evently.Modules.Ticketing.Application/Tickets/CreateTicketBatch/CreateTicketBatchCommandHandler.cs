@@ -43,7 +43,7 @@ internal sealed class CreateTicketBatchCommandHandler(
 
             for (int i = 0; i < orderItem.Quantity; i++)
             {
-                var ticket = Ticket.Create(order, ticketType);
+                Ticket ticket = Ticket.Create(order, ticketType);
 
                 tickets.Add(ticket);
             }

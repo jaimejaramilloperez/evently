@@ -6,7 +6,7 @@ internal sealed class CancelEventCommandValidator : AbstractValidator<CancelEven
 {
     public CancelEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty()
             .WithMessage("The event id is required.");
     }

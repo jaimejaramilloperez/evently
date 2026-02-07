@@ -6,26 +6,26 @@ internal sealed class CreateEventCommandValidator : AbstractValidator<CreateEven
 {
     public CreateEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty();
 
-        RuleFor(c => c.Title)
+        RuleFor(x => x.Title)
             .NotEmpty();
 
-        RuleFor(c => c.Description)
+        RuleFor(x => x.Description)
             .NotEmpty();
 
-        RuleFor(c => c.Location)
+        RuleFor(x => x.Location)
             .NotEmpty();
 
-        RuleFor(c => c.StartsAtUtc)
+        RuleFor(x => x.StartsAtUtc)
             .NotEmpty();
 
-        RuleFor(c => c.EndsAtUtc)
+        RuleFor(x => x.EndsAtUtc)
             .Must((cmd, endsAt) => endsAt > cmd.StartsAtUtc)
-            .When(c => c.EndsAtUtc.HasValue);
+            .When(x => x.EndsAtUtc.HasValue);
 
-        RuleForEach(c => c.TicketTypes)
+        RuleForEach(x => x.TicketTypes)
             .ChildRules(t =>
             {
                 t.RuleFor(r => r.EventId).NotEmpty();

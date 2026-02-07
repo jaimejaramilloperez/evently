@@ -22,7 +22,7 @@ internal sealed class GetCategories : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.GetCategories)
         .WithTags(Tags.Categories);
     }
 }

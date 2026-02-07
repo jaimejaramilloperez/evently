@@ -1,6 +1,7 @@
 using Evently.Common.Domain.Results;
 using Evently.Common.Presentation.ApiResults;
 using Evently.Common.Presentation.Endpoints;
+using Evently.Modules.Ticketing.Application.Abstractions.Authentication;
 using Evently.Modules.Ticketing.Application.Carts.ClearCart;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -13,15 +14,15 @@ internal sealed class ClearCart : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/carts/clear/{customerId:guid}", async (Guid customerId, ISender sender, CancellationToken cancellationToken) =>
+        app.MapDelete("/carts", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken) =>
         {
-            ClearCartCommand command = new(customerId);
+            ClearCartCommand command = new(customerContext.CustomerId);
 
             Result result = await sender.Send(command, cancellationToken);
 
             return result.Match(() => Results.NoContent(), CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.RemoveFromCart)
         .WithTags(Tags.Carts);
     }
 }

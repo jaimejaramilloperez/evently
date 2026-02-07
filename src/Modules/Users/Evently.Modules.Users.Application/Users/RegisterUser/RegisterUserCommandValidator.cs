@@ -6,19 +6,19 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
 {
     public RegisterUserCommandValidator()
     {
-        RuleFor(c => c.FirstName)
+        RuleFor(x => x.FirstName)
             .NotEmpty()
             .WithMessage("The first name is required.")
             .MaximumLength(200)
             .WithMessage("The first name must not exceed 200 characters.");
 
-        RuleFor(c => c.LastName)
+        RuleFor(x => x.LastName)
             .NotEmpty()
             .WithMessage("The last name is required.")
             .MaximumLength(200)
             .WithMessage("The last name must not exceed 200 characters.");
 
-        RuleFor(c => c.Email)
+        RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("The email is required.")
             .EmailAddress()
@@ -26,7 +26,7 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
             .MaximumLength(300)
             .WithMessage("The email must not exceed 300 characters.");
 
-        RuleFor(c => c.Password)
+        RuleFor(x => x.Password)
             .NotEmpty()
             .WithMessage("The password is required.")
             .MaximumLength(200)

@@ -6,7 +6,7 @@ internal sealed class ArchiveTicketsForEventCommandValidator : AbstractValidator
 {
     public ArchiveTicketsForEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty();
     }
 }

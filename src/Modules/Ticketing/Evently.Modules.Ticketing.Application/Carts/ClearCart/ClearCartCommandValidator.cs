@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Evently.Modules.Ticketing.Application.Carts.ClearCart;
 
-public sealed class ClearCartCommandValidator : AbstractValidator<ClearCartCommand>
+internal sealed class ClearCartCommandValidator : AbstractValidator<ClearCartCommand>
 {
     public ClearCartCommandValidator()
     {

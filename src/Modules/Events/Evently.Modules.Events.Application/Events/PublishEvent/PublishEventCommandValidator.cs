@@ -6,7 +6,7 @@ internal sealed class PublishEventCommandValidator : AbstractValidator<PublishEv
 {
     public PublishEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty()
             .WithMessage("The event id is required.");
     }

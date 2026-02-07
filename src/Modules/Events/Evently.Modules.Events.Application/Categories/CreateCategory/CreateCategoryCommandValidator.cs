@@ -6,7 +6,7 @@ internal sealed class CreateCategoryCommandValidator : AbstractValidator<CreateC
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(c => c.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("The name is required.")
             .MaximumLength(200)

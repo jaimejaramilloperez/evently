@@ -21,7 +21,7 @@ internal sealed class GetOrder : IEndpoint
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.GetOrders)
         .WithTags(Tags.Orders);
     }
 }

@@ -6,7 +6,7 @@ internal sealed class CreateTicketBatchCommandValidator : AbstractValidator<Crea
 {
     public CreateTicketBatchCommandValidator()
     {
-        RuleFor(c => c.OrderId)
+        RuleFor(x => x.OrderId)
             .NotEmpty();
     }
 }

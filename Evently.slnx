@@ -11,13 +11,26 @@
     <Project Path="src/Common/Evently.Common.Presentation/Evently.Common.Presentation.csproj" />
   </Folder>
 
+  <Folder Name="/src/Modules/Attendance/">
+    <Project
+      Path="src/Modules/Attendance/Evently.Modules.Attendance.Application/Evently.Modules.Attendance.Application.csproj" />
+    <Project Path="src/Modules/Attendance/Evently.Modules.Attendance.Domain/Evently.Modules.Attendance.Domain.csproj" />
+    <Project
+      Path="src/Modules/Attendance/Evently.Modules.Attendance.Infrastructure/Evently.Modules.Attendance.Infrastructure.csproj" />
+    <Project
+      Path="src/Modules/Attendance/Evently.Modules.Attendance.IntegrationEvents/Evently.Modules.Attendance.IntegrationEvents.csproj" />
+    <Project
+      Path="src/Modules/Attendance/Evently.Modules.Attendance.Presentation/Evently.Modules.Attendance.Presentation.csproj" />
+  </Folder>
+
   <Folder Name="/src/Modules/Events/">
     <Project Path="src/Modules/Events/Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj" />
     <Project Path="src/Modules/Events/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj" />
     <Project
       Path="src/Modules/Events/Evently.Modules.Events.Infrastructure/Evently.Modules.Events.Infrastructure.csproj" />
+    <Project
+      Path="src/Modules/Events/Evently.Modules.Events.IntegrationEvents/Evently.Modules.Events.IntegrationEvents.csproj" />
     <Project Path="src/Modules/Events/Evently.Modules.Events.Presentation/Evently.Modules.Events.Presentation.csproj" />
-    <Project Path="src/Modules/Events/Evently.Modules.Events.PublicApi/Evently.Modules.Events.PublicApi.csproj" />
   </Folder>
 
   <Folder Name="/src/Modules/Ticketing/">
@@ -26,6 +39,8 @@
     <Project Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Domain/Evently.Modules.Ticketing.Domain.csproj" />
     <Project
       Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Infrastructure/Evently.Modules.Ticketing.Infrastructure.csproj" />
+    <Project
+      Path="src/Modules/Ticketing/Evently.Modules.Ticketing.IntegrationEvents/Evently.Modules.Ticketing.IntegrationEvents.csproj" />
     <Project
       Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Presentation/Evently.Modules.Ticketing.Presentation.csproj" />
   </Folder>

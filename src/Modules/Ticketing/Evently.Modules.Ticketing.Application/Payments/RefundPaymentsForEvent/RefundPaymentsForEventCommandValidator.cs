@@ -6,7 +6,7 @@ internal sealed class RefundPaymentsForEventCommandValidator : AbstractValidator
 {
     public RefundPaymentsForEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty();
     }
 }

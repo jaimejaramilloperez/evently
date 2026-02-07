@@ -29,7 +29,7 @@ internal sealed class CreateCategory : IEndpoint
                 Results.Created(new Uri($"/api/categories/{result.Value.Id}", UriKind.Relative), result.Value),
                 CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization(Permissions.ModifyCategories)
         .WithTags(Tags.Categories);
     }
 }

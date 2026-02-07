@@ -6,7 +6,7 @@ internal sealed class ArchiveCategoryCommandValidator : AbstractValidator<Archiv
 {
     public ArchiveCategoryCommandValidator()
     {
-        RuleFor(c => c.CategoryId)
+        RuleFor(x => x.CategoryId)
             .NotEmpty()
             .WithMessage("The category id is required.");
     }

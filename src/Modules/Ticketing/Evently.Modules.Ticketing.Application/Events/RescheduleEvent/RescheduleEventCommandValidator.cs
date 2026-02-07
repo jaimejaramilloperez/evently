@@ -6,14 +6,14 @@ internal sealed class RescheduleEventCommandValidator : AbstractValidator<Resche
 {
     public RescheduleEventCommandValidator()
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty();
 
-        RuleFor(c => c.StartsAtUtc)
+        RuleFor(x => x.StartsAtUtc)
             .NotEmpty();
 
-        RuleFor(c => c.EndsAtUtc)
+        RuleFor(x => x.EndsAtUtc)
             .Must((cmd, endsAt) => endsAt > cmd.StartsAtUtc)
-            .When(c => c.EndsAtUtc.HasValue);
+            .When(x => x.EndsAtUtc.HasValue);
     }
 }

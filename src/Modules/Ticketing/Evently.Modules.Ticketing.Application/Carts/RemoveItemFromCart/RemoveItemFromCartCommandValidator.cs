@@ -6,11 +6,11 @@ internal sealed class RemoveItemFromCartCommandValidator : AbstractValidator<Rem
 {
     public RemoveItemFromCartCommandValidator()
     {
-        RuleFor(c => c.CustomerId)
+        RuleFor(x => x.CustomerId)
             .NotEmpty()
             .WithMessage("The customer id is required.");
 
-        RuleFor(c => c.TicketTypeId)
+        RuleFor(x => x.TicketTypeId)
             .NotEmpty()
             .WithMessage("The ticket type id is required.");
     }

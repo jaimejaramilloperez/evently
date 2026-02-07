@@ -6,7 +6,7 @@ internal sealed class RefundPaymentCommandValidator : AbstractValidator<RefundPa
 {
     public RefundPaymentCommandValidator()
     {
-        RuleFor(c => c.PaymentId)
+        RuleFor(x => x.PaymentId)
             .NotEmpty();
     }
 }

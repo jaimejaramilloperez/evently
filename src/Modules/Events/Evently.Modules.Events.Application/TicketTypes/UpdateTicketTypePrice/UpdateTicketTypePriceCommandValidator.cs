@@ -6,11 +6,11 @@ internal sealed class UpdateTicketTypePriceCommandValidator : AbstractValidator<
 {
     public UpdateTicketTypePriceCommandValidator()
     {
-        RuleFor(c => c.TicketTypeId)
+        RuleFor(x => x.TicketTypeId)
             .NotEmpty()
             .WithMessage("The ticket id is required.");
 
-        RuleFor(c => c.Price)
+        RuleFor(x => x.Price)
             .GreaterThan(decimal.Zero)
             .WithMessage("The price must be greater than zero.");
     }

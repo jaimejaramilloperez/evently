@@ -133,6 +133,9 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
                     b.HasKey("Id")
                         .HasName("pk_ticket_types");
 
+                    b.HasIndex("EventId")
+                        .HasDatabaseName("ix_ticket_types_event_id");
+
                     b.ToTable("ticket_types", "ticketing");
                 });
 
@@ -171,13 +174,15 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
                     b.HasKey("Id")
                         .HasName("pk_orders");
 
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_orders_customer_id");
+
                     b.ToTable("orders", "ticketing");
                 });
 
             modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Orders.OrderItem", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -211,6 +216,9 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
 
                     b.HasIndex("OrderId")
                         .HasDatabaseName("ix_order_items_order_id");
+
+                    b.HasIndex("TicketTypeId")
+                        .HasDatabaseName("ix_order_items_ticket_type_id");
 
                     b.ToTable("order_items", "ticketing");
                 });
@@ -250,6 +258,13 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
                     b.HasKey("Id")
                         .HasName("pk_payments");
 
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_payments_order_id");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_payments_transaction_id");
+
                     b.ToTable("payments", "ticketing");
                 });
 
@@ -266,7 +281,8 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAtUtc")
@@ -292,7 +308,43 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
                     b.HasKey("Id")
                         .HasName("pk_tickets");
 
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_tickets_code");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_tickets_customer_id");
+
+                    b.HasIndex("EventId")
+                        .HasDatabaseName("ix_tickets_event_id");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_tickets_order_id");
+
+                    b.HasIndex("TicketTypeId")
+                        .HasDatabaseName("ix_tickets_ticket_type_id");
+
                     b.ToTable("tickets", "ticketing");
+                });
+
+            modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Events.TicketType", b =>
+                {
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Events.Event", null)
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_ticket_types_events_event_id");
+                });
+
+            modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Orders.Order", b =>
+                {
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Customers.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_orders_customers_customer_id");
                 });
 
             modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Orders.OrderItem", b =>
@@ -303,6 +355,54 @@ namespace Evently.Modules.Ticketing.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_order_items_orders_order_id");
+
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Events.TicketType", null)
+                        .WithMany()
+                        .HasForeignKey("TicketTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_items_ticket_types_ticket_type_id");
+                });
+
+            modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Payments.Payment", b =>
+                {
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Orders.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_payments_orders_order_id");
+                });
+
+            modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Tickets.Ticket", b =>
+                {
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Customers.Customer", null)
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_tickets_customers_customer_id");
+
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Events.Event", null)
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_tickets_events_event_id");
+
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Orders.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_tickets_orders_order_id");
+
+                    b.HasOne("Evently.Modules.Ticketing.Domain.Events.TicketType", null)
+                        .WithMany()
+                        .HasForeignKey("TicketTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_tickets_ticket_types_ticket_type_id");
                 });
 
             modelBuilder.Entity("Evently.Modules.Ticketing.Domain.Orders.Order", b =>

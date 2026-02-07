@@ -18,7 +18,8 @@ internal sealed class CreateOrderCommandHandler(
     IPaymentRepository paymentRepository,
     IPaymentService paymentService,
     CartService cartService,
-    IUnitOfWork unitOfWork) : ICommandHandler<CreateOrderCommand>
+    IUnitOfWork unitOfWork)
+    : ICommandHandler<CreateOrderCommand>
 {
     public async Task<Result> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {

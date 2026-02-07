@@ -6,7 +6,7 @@ internal static class ConfigurationExtensions
         this IConfigurationBuilder configurationBuilder,
         string[] modules)
     {
-        foreach (var module in modules)
+        foreach (string module in modules)
         {
             configurationBuilder.AddJsonFile(
                 path: $"modules.{module}.json",

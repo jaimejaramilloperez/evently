@@ -8,7 +8,7 @@ internal sealed class EventRepository(TicketingDbContext context) : IEventReposi
 {
     public async Task<Event?> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await context.Events.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        return await context.Events.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public void Insert(Event @event)

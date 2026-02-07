@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Evently.Modules.Ticketing.Application.Carts.AddItemToCart;
 
-public sealed class AddItemToCartCommandValidator : AbstractValidator<AddItemToCartCommand>
+internal sealed class AddItemToCartCommandValidator : AbstractValidator<AddItemToCartCommand>
 {
     public AddItemToCartCommandValidator()
     {

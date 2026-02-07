@@ -7,7 +7,7 @@ internal sealed class RescheduleEventCommandValidator : AbstractValidator<Resche
 {
     public RescheduleEventCommandValidator(TimeProvider timeProvider)
     {
-        RuleFor(c => c.EventId)
+        RuleFor(x => x.EventId)
             .NotEmpty()
             .WithMessage("The event id is required.");
 
