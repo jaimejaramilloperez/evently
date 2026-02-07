@@ -27,11 +27,11 @@ internal sealed class KeyCloakClient(HttpClient httpClient)
 
         string identityId = locationHeader.PathAndQuery.Split("/")[^1];
 
-        if (!Guid.TryParse(identityId, out Guid result))
+        if (!Guid.TryParse(identityId, out Guid parsedIdentityId))
         {
             throw new InvalidOperationException("Identity Id is not a guid");
         }
 
-        return result;
+        return parsedIdentityId;
     }
 }

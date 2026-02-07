@@ -1,3 +1,4 @@
+using Evently.Modules.Users.Domain.Roles;
 using Evently.Modules.Users.Domain.Users;
 using Evently.Modules.Users.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,11 @@ internal sealed class UserRepository(UsersDbContext context) : IUserRepository
 
     public void Insert(User user)
     {
+        foreach (Role role in user.Roles)
+        {
+            context.Attach(role);
+        }
+
         context.Users.Add(user);
     }
 }

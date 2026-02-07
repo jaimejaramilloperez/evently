@@ -1,4 +1,6 @@
-﻿using Evently.Common.Domain.Results;
+﻿using System.Security.Claims;
+using Evently.Common.Domain.Results;
+using Evently.Common.Infrastructure.Authentication;
 using Evently.Common.Presentation.ApiResults;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Users.Application.Users.GetUser;
@@ -13,15 +15,17 @@ internal sealed class GetUserProfile : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users/{id:guid}/profile", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet("users/profile", async (ClaimsPrincipal user, ISender sender, CancellationToken cancellationToken) =>
         {
-            GetUserQuery query = new(id);
+            Guid userId = user.GetUserId();
+
+            GetUserQuery query = new(userId);
 
             Result<UserResponse> result = await sender.Send(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
-        .RequireAuthorization()
+        .RequireAuthorization("users:read")
         .WithTags(Tags.Users);
     }
 }

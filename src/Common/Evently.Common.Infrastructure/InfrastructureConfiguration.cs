@@ -2,6 +2,7 @@ using Evently.Common.Application.Caching;
 using Evently.Common.Application.Data;
 using Evently.Common.Application.EventBus;
 using Evently.Common.Infrastructure.Authentication;
+using Evently.Common.Infrastructure.Authorization;
 using Evently.Common.Infrastructure.Caching;
 using Evently.Common.Infrastructure.Data;
 using Evently.Common.Infrastructure.Interceptors;
@@ -38,6 +39,8 @@ public static class InfrastructureConfiguration
         services.AddHttpContextAccessor();
 
         services.AddAuthenticationInternal();
+
+        services.AddAuthorizationInternal();
 
         try
         {

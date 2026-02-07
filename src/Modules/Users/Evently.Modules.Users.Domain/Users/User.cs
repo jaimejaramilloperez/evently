@@ -1,5 +1,6 @@
 ﻿using Evently.Common.Domain;
 using Evently.Common.Domain.Results;
+using Evently.Modules.Users.Domain.Roles;
 using Evently.Modules.Users.Domain.Users.DomainEvents;
 
 namespace Evently.Modules.Users.Domain.Users;
@@ -11,6 +12,7 @@ public sealed class User : Entity
     public string Email { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
+    public ICollection<Role> Roles { get; private set; } = [];
 
     public static Guid CreateUserId()
     {
@@ -27,6 +29,8 @@ public sealed class User : Entity
             FirstName = firstName,
             LastName = lastName,
         };
+
+        user.Roles.Add(Role.Member);
 
         user.RaiseEvent(new UserRegisteredDomainEvent(user.Id));
 
