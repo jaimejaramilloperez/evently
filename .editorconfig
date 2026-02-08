@@ -24,6 +24,10 @@ insert_final_newline = false
 [/**/Migrations/*.cs]
 generated_code = true
 
+[/**/test/**/*.cs]
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = silent
+
 #### .NET Coding Conventions ####
 [*.{cs,vb}]
 

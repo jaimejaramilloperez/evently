@@ -23,6 +23,11 @@
       Path="src/Modules/Attendance/Evently.Modules.Attendance.Presentation/Evently.Modules.Attendance.Presentation.csproj" />
   </Folder>
 
+  <Folder Name="/src/Modules/Attendance/test/">
+    <Project
+      Path="src/Modules/Attendance/test/Evently.Modules.Attendance.ArchitectureTests/Evently.Modules.Attendance.ArchitectureTests.csproj" />
+  </Folder>
+
   <Folder Name="/src/Modules/Events/">
     <Project Path="src/Modules/Events/Evently.Modules.Events.Domain/Evently.Modules.Events.Domain.csproj" />
     <Project Path="src/Modules/Events/Evently.Modules.Events.Application/Evently.Modules.Events.Application.csproj" />
@@ -31,6 +36,11 @@
     <Project
       Path="src/Modules/Events/Evently.Modules.Events.IntegrationEvents/Evently.Modules.Events.IntegrationEvents.csproj" />
     <Project Path="src/Modules/Events/Evently.Modules.Events.Presentation/Evently.Modules.Events.Presentation.csproj" />
+  </Folder>
+
+  <Folder Name="/src/Modules/Events/test/">
+    <Project
+      Path="src/Modules/Events/test/Evently.Modules.Events.ArchitectureTests/Evently.Modules.Events.ArchitectureTests.csproj" />
   </Folder>
 
   <Folder Name="/src/Modules/Ticketing/">
@@ -45,6 +55,11 @@
       Path="src/Modules/Ticketing/Evently.Modules.Ticketing.Presentation/Evently.Modules.Ticketing.Presentation.csproj" />
   </Folder>
 
+  <Folder Name="/src/Modules/Ticketing/test/">
+    <Project
+      Path="src/Modules/Ticketing/test/Evently.Modules.Ticketing.ArchitectureTests/Evently.Modules.Ticketing.ArchitectureTests.csproj" />
+  </Folder>
+
   <Folder Name="/src/Modules/Users/">
     <Project Path="src/Modules/Users/Evently.Modules.Users.Application/Evently.Modules.Users.Application.csproj" />
     <Project Path="src/Modules/Users/Evently.Modules.Users.Domain/Evently.Modules.Users.Domain.csproj" />
@@ -52,6 +67,15 @@
     <Project
       Path="src/Modules/Users/Evently.Modules.Users.IntegrationEvents/Evently.Modules.Users.IntegrationEvents.csproj" />
     <Project Path="src/Modules/Users/Evently.Modules.Users.Presentation/Evently.Modules.Users.Presentation.csproj" />
+  </Folder>
+
+  <Folder Name="/src/Modules/Users/test/">
+    <Project
+      Path="src/Modules/Users/test/Evently.Modules.Users.ArchitectureTests/Evently.Modules.Users.ArchitectureTests.csproj" />
+  </Folder>
+
+  <Folder Name="/test/">
+    <Project Path="test/Evently.ArchitectureTests/Evently.ArchitectureTests.csproj" />
   </Folder>
 
 </Solution>
