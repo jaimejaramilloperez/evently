@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
-    <PackageReference Include="AspNetCore.HealthChecks.Redis" />
-    <PackageReference Include="AspNetCore.HealthChecks.Uris" />
     <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="MassTransit" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />

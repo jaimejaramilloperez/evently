@@ -1,3 +1,4 @@
+using Evently.Common.Infrastructure.Configuration;
 using Evently.Common.Infrastructure.Interceptors;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Ticketing.Application.Abstractions.Authentication;
@@ -43,8 +44,7 @@ public static class TicketingModule
 
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        string databaseConnectionString = configuration.GetConnectionString("Database")
-            ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
+        string databaseConnectionString = configuration.GetConnectionStringOrThrow("Database");
 
         services.AddDbContext<TicketingDbContext>((sp, options) =>
         {

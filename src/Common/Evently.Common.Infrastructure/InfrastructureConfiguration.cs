@@ -4,6 +4,7 @@ using Evently.Common.Application.EventBus;
 using Evently.Common.Infrastructure.Authentication;
 using Evently.Common.Infrastructure.Authorization;
 using Evently.Common.Infrastructure.Caching;
+using Evently.Common.Infrastructure.Configuration;
 using Evently.Common.Infrastructure.Data;
 using Evently.Common.Infrastructure.Interceptors;
 using MassTransit;
@@ -22,11 +23,8 @@ public static class InfrastructureConfiguration
         IConfiguration configuration,
         Action<IRegistrationConfigurator>[] moduleConfigureConsumers)
     {
-        string databaseConnectionString = configuration.GetConnectionString("Database")
-            ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
-
-        string redisConnectionString = configuration.GetConnectionString("Cache")
-            ?? throw new InvalidOperationException("Connection string 'Cache' was not found in configuration.");
+        string databaseConnectionString = configuration.GetConnectionStringOrThrow("Database");
+        string redisConnectionString = configuration.GetConnectionStringOrThrow("Cache");
 
         services.TryAddSingleton(new NpgsqlDataSourceBuilder(databaseConnectionString).Build());
 
@@ -77,14 +75,6 @@ public static class InfrastructureConfiguration
                 config.ConfigureEndpoints(context);
             });
         });
-
-        string keyCloakHealthUrl = configuration.GetSection("KeyCloak").GetValue<string>("HealthUrl")
-            ?? throw new InvalidOperationException("Configuration value 'KeyCloak__HealthUrl' was not found in configuration.");
-
-        services.AddHealthChecks()
-            .AddNpgSql(databaseConnectionString)
-            .AddRedis(redisConnectionString)
-            .AddUrlGroup(new Uri(keyCloakHealthUrl), HttpMethod.Get, "keycloak");
 
         return services;
     }

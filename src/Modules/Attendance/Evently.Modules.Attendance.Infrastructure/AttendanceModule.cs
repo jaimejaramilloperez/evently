@@ -1,4 +1,5 @@
-﻿using Evently.Common.Infrastructure.Interceptors;
+﻿using Evently.Common.Infrastructure.Configuration;
+using Evently.Common.Infrastructure.Interceptors;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Attendance.Application.Abstractions.Authentication;
 using Evently.Modules.Attendance.Application.Abstractions.Data;
@@ -32,8 +33,7 @@ public static class AttendanceModule
 
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        string databaseConnectionString = configuration.GetConnectionString("Database")
-            ?? throw new InvalidOperationException("Connection string 'Database' was not found in configuration.");
+        string databaseConnectionString = configuration.GetConnectionStringOrThrow("Database");
 
         services.AddDbContext<AttendanceDbContext>((sp, options) =>
         {

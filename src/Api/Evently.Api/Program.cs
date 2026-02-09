@@ -4,6 +4,7 @@ using Evently.Api.Middlewares;
 using Evently.Api.OpenApi;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
+using Evently.Common.Infrastructure.Configuration;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Attendance.Infrastructure;
 using Evently.Modules.Events.Infrastructure;
@@ -50,6 +51,11 @@ builder.Services.AddEventsModule(builder.Configuration);
 builder.Services.AddUsersModule(builder.Configuration);
 builder.Services.AddTicketingModule(builder.Configuration);
 builder.Services.AddAttendanceModule(builder.Configuration);
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionStringOrThrow("Database"))
+    .AddRedis(builder.Configuration.GetConnectionStringOrThrow("Cache"))
+    .AddKeyCloak(builder.Configuration.GetValueOrThrow<string>("KeyCloak__HealthUrl"));
 
 var app = builder.Build();
 
