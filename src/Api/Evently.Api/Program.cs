@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Evently.Api.Extensions;
 using Evently.Api.Middlewares;
+using Evently.Api.OpenApi;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Common.Presentation.Endpoints;
@@ -16,7 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+});
 
 builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = context =>
 {
@@ -52,6 +56,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.DocumentTitle = "Evently Api - Swagger Docs";
+        options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
+        options.DisplayRequestDuration();
+    });
+
     app.ApplyMigrations();
 }
 

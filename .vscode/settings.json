@@ -28,6 +28,7 @@
     "requirepass",
     "Serilog",
     "slnx",
+    "Swashbuckle",
     "uninstantiated",
     "usersecrets",
     "uuidv",
