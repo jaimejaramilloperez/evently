@@ -8,9 +8,11 @@ using MediatR;
 namespace Evently.Modules.Ticketing.Application.Orders.CreateOrder;
 
 internal sealed class SendOrderConfirmationDomainEventHandler(ISender sender)
-    : IDomainEventHandler<OrderCreatedDomainEvent>
+    : DomainEventHandler<OrderCreatedDomainEvent>
 {
-    public async Task Handle(OrderCreatedDomainEvent notification, CancellationToken cancellationToken)
+    public override async Task Handle(
+        OrderCreatedDomainEvent notification,
+        CancellationToken cancellationToken = default)
     {
         GetOrderQuery query = new(notification.OrderId);
 

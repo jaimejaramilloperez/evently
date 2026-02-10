@@ -3,8 +3,9 @@ using System.Data.Common;
 using System.Text.Json;
 using Dapper;
 using Evently.Common.Application.Data;
+using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.DomainEvents;
-using MediatR;
+using Evently.Common.Infrastructure.Outbox;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,6 @@ internal sealed class ProcessOutboxJob(
 
         using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
         IOptions<JsonOptions> jsonOptions = serviceScope.ServiceProvider.GetRequiredService<IOptions<JsonOptions>>();
-        IPublisher publisher = serviceScope.ServiceProvider.GetRequiredService<IPublisher>();
 
         foreach (OutboxMessageResponse outboxMessage in outboxMessageResponses)
         {
@@ -54,7 +54,15 @@ internal sealed class ProcessOutboxJob(
                     throw new InvalidOperationException("Domain event is null");
                 }
 
-                await publisher.Publish(domainEvent);
+                IEnumerable<IDomainEventHandler> domainEventHandlers = DomainEventHandlersFactory.GetHandlers(
+                    domainEvent.GetType(),
+                    Application.AssemblyReference.Assembly,
+                    serviceScope.ServiceProvider);
+
+                foreach (IDomainEventHandler domainEventHandler in domainEventHandlers)
+                {
+                    await domainEventHandler.Handle(domainEvent);
+                }
             }
             catch (Exception ex)
             {

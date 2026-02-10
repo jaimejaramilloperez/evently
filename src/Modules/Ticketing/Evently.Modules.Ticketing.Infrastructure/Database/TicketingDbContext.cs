@@ -32,6 +32,7 @@ public sealed class TicketingDbContext(DbContextOptions<TicketingDbContext> opti
         modelBuilder.HasDefaultSchema(Schemas.Ticketing);
 
         modelBuilder.ApplyConfiguration(new OutboxMessageDatabaseConfiguration());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConsumerDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new EventDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new TicketTypeDatabaseConfiguration());

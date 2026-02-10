@@ -10,9 +10,11 @@ using MediatR;
 namespace Evently.Modules.Ticketing.Application.Tickets.CreateTicketBatch;
 
 internal sealed class TicketCreatedDomainEventHandler(ISender sender, IEventBus eventBus)
-    : IDomainEventHandler<TicketCreatedDomainEvent>
+    : DomainEventHandler<TicketCreatedDomainEvent>
 {
-    public async Task Handle(TicketCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
+    public override async Task Handle(
+        TicketCreatedDomainEvent domainEvent,
+        CancellationToken cancellationToken = default)
     {
         GetTicketQuery query = new(domainEvent.TicketId);
 

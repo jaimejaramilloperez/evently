@@ -10,11 +10,13 @@ using MediatR;
 namespace Evently.Modules.Users.Application.Users.RegisterUser;
 
 internal sealed class UserRegisteredDomainEventHandler(ISender sender, IEventBus eventBus)
-    : IDomainEventHandler<UserRegisteredDomainEvent>
+    : DomainEventHandler<UserRegisteredDomainEvent>
 {
-    public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
+    public override async Task Handle(
+        UserRegisteredDomainEvent domainEvent,
+        CancellationToken cancellationToken = default)
     {
-        GetUserQuery query = new(notification.UserId);
+        GetUserQuery query = new(domainEvent.UserId);
 
         Result<UserResponse> result = await sender.Send(query, cancellationToken);
 
@@ -24,8 +26,8 @@ internal sealed class UserRegisteredDomainEventHandler(ISender sender, IEventBus
         }
 
         UserRegisteredIntegrationEvent integrationEvent = new(
-            notification.Id,
-            notification.OccurredAtUtc,
+            domainEvent.Id,
+            domainEvent.OccurredAtUtc,
             result.Value.Id,
             result.Value.Email,
             result.Value.FirstName,

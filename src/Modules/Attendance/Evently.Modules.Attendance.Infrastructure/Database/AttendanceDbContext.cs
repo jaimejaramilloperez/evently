@@ -22,6 +22,7 @@ public sealed class AttendanceDbContext(DbContextOptions<AttendanceDbContext> op
         modelBuilder.HasDefaultSchema(Schemas.Attendance);
 
         modelBuilder.ApplyConfiguration(new OutboxMessageDatabaseConfiguration());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConsumerDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new AttendeeDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new EventDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new TicketDatabaseConfiguration());

@@ -26,6 +26,7 @@
     "redis",
     "redisinsight",
     "requirepass",
+    "Scrutor",
     "Serilog",
     "slnx",
     "Swashbuckle",

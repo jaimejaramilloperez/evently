@@ -6,16 +6,18 @@ using Evently.Modules.Users.IntegrationEvents;
 namespace Evently.Modules.Users.Application.Users.UpdateUser;
 
 internal sealed class UserProfileUpdatedDomainEventHandler(IEventBus eventBus)
-    : IDomainEventHandler<UserProfileUpdatedDomainEvent>
+    : DomainEventHandler<UserProfileUpdatedDomainEvent>
 {
-    public async Task Handle(UserProfileUpdatedDomainEvent domainEvent, CancellationToken cancellationToken)
+    public override async Task Handle(
+        UserProfileUpdatedDomainEvent domainEvent,
+        CancellationToken cancellationToken = default)
     {
         UserProfileUpdatedIntegrationEvent integrationEvent = new(
-                domainEvent.Id,
-                domainEvent.OccurredAtUtc,
-                domainEvent.UserId,
-                domainEvent.FirstName,
-                domainEvent.LastName);
+            domainEvent.Id,
+            domainEvent.OccurredAtUtc,
+            domainEvent.UserId,
+            domainEvent.FirstName,
+            domainEvent.LastName);
 
         await eventBus.PublishAsync(integrationEvent, cancellationToken);
     }

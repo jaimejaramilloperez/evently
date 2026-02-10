@@ -5,9 +5,11 @@ using Evently.Modules.Ticketing.Domain.Payments.DomainEvents;
 namespace Evently.Modules.Ticketing.Application.Payments.RefundPayment;
 
 internal sealed class PaymentRefundedDomainEventHandler(IPaymentService paymentService)
-    : IDomainEventHandler<PaymentRefundedDomainEvent>
+    : DomainEventHandler<PaymentRefundedDomainEvent>
 {
-    public async Task Handle(PaymentRefundedDomainEvent domainEvent, CancellationToken cancellationToken)
+    public override async Task Handle(
+        PaymentRefundedDomainEvent domainEvent,
+        CancellationToken cancellationToken = default)
     {
         await paymentService.RefundAsync(domainEvent.TransactionId, domainEvent.RefundAmount);
     }

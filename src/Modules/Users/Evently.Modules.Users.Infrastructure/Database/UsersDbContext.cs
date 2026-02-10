@@ -22,6 +22,7 @@ public sealed class UsersDbContext(DbContextOptions<UsersDbContext> options)
         modelBuilder.HasDefaultSchema(Schemas.Users);
 
         modelBuilder.ApplyConfiguration(new OutboxMessageDatabaseConfiguration());
+        modelBuilder.ApplyConfiguration(new OutboxMessageConsumerDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new UserDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new RoleDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new PermissionDatabaseConfiguration());
