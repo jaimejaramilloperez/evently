@@ -1,5 +1,5 @@
 using Evently.Common.Infrastructure.Configuration;
-using Evently.Common.Infrastructure.Interceptors;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
@@ -8,6 +8,7 @@ using Evently.Modules.Events.Domain.TicketTypes;
 using Evently.Modules.Events.Infrastructure.Categories;
 using Evently.Modules.Events.Infrastructure.Database;
 using Evently.Modules.Events.Infrastructure.Events;
+using Evently.Modules.Events.Infrastructure.Outbox;
 using Evently.Modules.Events.Infrastructure.TicketTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -40,7 +41,7 @@ public static class EventsModule
             });
 
             options.UseSnakeCaseNamingConvention();
-            options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
+            options.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>());
         });
 
         services.AddScoped<IEventRepository, EventRepository>();
@@ -48,5 +49,9 @@ public static class EventsModule
         services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventsDbContext>());
+
+        services.Configure<OutboxOptions>(configuration.GetSection("Events").GetSection("Outbox"));
+
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
     }
 }

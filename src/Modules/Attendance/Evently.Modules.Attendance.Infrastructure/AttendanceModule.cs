@@ -1,5 +1,5 @@
 ﻿using Evently.Common.Infrastructure.Configuration;
-using Evently.Common.Infrastructure.Interceptors;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Attendance.Application.Abstractions.Authentication;
 using Evently.Modules.Attendance.Application.Abstractions.Data;
@@ -10,7 +10,12 @@ using Evently.Modules.Attendance.Infrastructure.Attendees;
 using Evently.Modules.Attendance.Infrastructure.Authentication;
 using Evently.Modules.Attendance.Infrastructure.Database;
 using Evently.Modules.Attendance.Infrastructure.Events;
+using Evently.Modules.Attendance.Infrastructure.Outbox;
 using Evently.Modules.Attendance.Infrastructure.Tickets;
+using Evently.Modules.Attendance.Presentation.Attendees;
+using Evently.Modules.Attendance.Presentation.Events;
+using Evently.Modules.Attendance.Presentation.Tickets;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +36,14 @@ public static class AttendanceModule
         return services;
     }
 
+    public static void ConfigureConsumers(IRegistrationConfigurator registrationConfigurator)
+    {
+        registrationConfigurator.AddConsumer<UserRegisteredIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<UserProfileUpdatedIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<EventPublishedIntegrationEventConsumer>();
+        registrationConfigurator.AddConsumer<TicketIssuedIntegrationEventConsumer>();
+    }
+
     private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         string databaseConnectionString = configuration.GetConnectionStringOrThrow("Database");
@@ -44,7 +57,7 @@ public static class AttendanceModule
             });
 
             options.UseSnakeCaseNamingConvention();
-            options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
+            options.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>());
         });
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AttendanceDbContext>());
@@ -54,5 +67,9 @@ public static class AttendanceModule
         services.AddScoped<ITicketRepository, TicketRepository>();
 
         services.AddScoped<IAttendanceContext, AttendanceContext>();
+
+        services.Configure<OutboxOptions>(configuration.GetSection("Attendance").GetSection("Outbox"));
+
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
     }
 }

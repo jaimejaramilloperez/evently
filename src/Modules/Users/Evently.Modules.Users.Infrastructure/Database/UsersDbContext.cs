@@ -1,3 +1,4 @@
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Domain.Permissions;
 using Evently.Modules.Users.Domain.Roles;
@@ -20,6 +21,7 @@ public sealed class UsersDbContext(DbContextOptions<UsersDbContext> options)
     {
         modelBuilder.HasDefaultSchema(Schemas.Users);
 
+        modelBuilder.ApplyConfiguration(new OutboxMessageDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new UserDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new RoleDatabaseConfiguration());
         modelBuilder.ApplyConfiguration(new PermissionDatabaseConfiguration());

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Evently.Api.Extensions;
 using Evently.Api.Middlewares;
 using Evently.Api.OpenApi;
+using Evently.Api.Serialization;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Common.Infrastructure.Configuration;
@@ -17,6 +18,8 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
+
+builder.Services.ConfigureOptions<ConfigureJsonOptions>();
 
 builder.Services.AddOpenApi(options =>
 {
@@ -43,6 +46,7 @@ builder.Services.AddApplication([
 
 builder.Services.AddInfrastructure(builder.Configuration, [
     TicketingModule.ConfigureConsumers,
+    AttendanceModule.ConfigureConsumers,
 ]);
 
 builder.Configuration.AddModuleConfiguration(["events", "users", "ticketing", "attendance"]);
@@ -55,7 +59,7 @@ builder.Services.AddAttendanceModule(builder.Configuration);
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionStringOrThrow("Database"))
     .AddRedis(builder.Configuration.GetConnectionStringOrThrow("Cache"))
-    .AddKeyCloak(builder.Configuration.GetValueOrThrow<string>("KeyCloak__HealthUrl"));
+    .AddKeyCloak(builder.Configuration.GetValueOrThrow<string>("KeyCloak:HealthUrl"));
 
 var app = builder.Build();
 

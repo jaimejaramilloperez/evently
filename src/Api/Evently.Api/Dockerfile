@@ -12,6 +12,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0.102-alpine3.22@sha256:c9df51f6d2219e3d142
 WORKDIR /src
 COPY ["nuget.config", "global.json", "Directory.Build.props", "Directory.Packages.props", "Evently.slnx", "./"]
 COPY --parents ["src/**/*.csproj", "./"]
+COPY --parents ["test/**/*.csproj", "./"]
 RUN dotnet restore "./Evently.slnx"
 
 FROM restore AS build

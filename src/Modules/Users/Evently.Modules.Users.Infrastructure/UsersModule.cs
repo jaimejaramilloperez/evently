@@ -1,6 +1,6 @@
 using Evently.Common.Application.Authorization;
 using Evently.Common.Infrastructure.Configuration;
-using Evently.Common.Infrastructure.Interceptors;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Application.Abstractions.Identity;
@@ -8,6 +8,7 @@ using Evently.Modules.Users.Domain.Users;
 using Evently.Modules.Users.Infrastructure.Authorization;
 using Evently.Modules.Users.Infrastructure.Database;
 using Evently.Modules.Users.Infrastructure.Identity;
+using Evently.Modules.Users.Infrastructure.Outbox;
 using Evently.Modules.Users.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -41,7 +42,7 @@ public static class UsersModule
             });
 
             options.UseSnakeCaseNamingConvention();
-            options.AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>());
+            options.AddInterceptors(sp.GetRequiredService<InsertOutboxMessagesInterceptor>());
         });
 
         services.AddScoped<IPermissionService, PermissionService>();
@@ -62,5 +63,9 @@ public static class UsersModule
         .AddHttpMessageHandler<KeyCloakAuthDelegatingHandler>();
 
         services.AddTransient<IIdentityProviderService, IdentityProviderService>();
+
+        services.Configure<OutboxOptions>(configuration.GetSection("Users").GetSection("Outbox"));
+
+        services.ConfigureOptions<ConfigureProcessOutboxJob>();
     }
 }
