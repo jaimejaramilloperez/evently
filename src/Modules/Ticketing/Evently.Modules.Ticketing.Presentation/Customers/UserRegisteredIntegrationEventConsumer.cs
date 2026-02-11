@@ -1,26 +1,28 @@
+using Evently.Common.Application.EventBus;
 using Evently.Common.Application.Exceptions;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Ticketing.Application.Customers.CreateCustomer;
 using Evently.Modules.Users.IntegrationEvents;
-using MassTransit;
 using MediatR;
 
 namespace Evently.Modules.Ticketing.Presentation.Customers;
 
 public sealed class UserRegisteredIntegrationEventConsumer(ISender sender)
-    : IConsumer<UserRegisteredIntegrationEvent>
+    : IntegrationEventHandler<UserRegisteredIntegrationEvent>
 {
-    public async Task Consume(ConsumeContext<UserRegisteredIntegrationEvent> context)
+    public override async Task Handle(
+        UserRegisteredIntegrationEvent integrationEvent,
+        CancellationToken cancellationToken = default)
     {
         CreateCustomerCommand command = new()
         {
-            CustomerId = context.Message.UserId,
-            Email = context.Message.Email,
-            FirstName = context.Message.FirstName,
-            LastName = context.Message.LastName,
+            CustomerId = integrationEvent.UserId,
+            Email = integrationEvent.Email,
+            FirstName = integrationEvent.FirstName,
+            LastName = integrationEvent.LastName,
         };
 
-        Result result = await sender.Send(command, context.CancellationToken);
+        Result result = await sender.Send(command, cancellationToken);
 
         if (!result.IsSuccess)
         {

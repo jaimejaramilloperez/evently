@@ -19,11 +19,13 @@ internal sealed class ProcessOutboxJob(
     IDbConnectionFactory dbConnectionFactory,
     IServiceScopeFactory serviceScopeFactory,
     IOptions<OutboxOptions> outboxOptions,
+    IOptions<JsonOptions> jsonOptions,
     TimeProvider timeProvider,
     ILogger<ProcessOutboxJob> logger) : IJob
 {
     private const string ModuleName = "ticketing";
     private readonly OutboxOptions _outboxOptions = outboxOptions.Value;
+    private readonly JsonOptions _jsonOptions = jsonOptions.Value;
 
     internal sealed record OutboxMessageResponse(Guid Id, string Content);
 
@@ -34,12 +36,11 @@ internal sealed class ProcessOutboxJob(
         await using DbConnection connection = await dbConnectionFactory.OpenConnectionAsync();
         await using DbTransaction transaction = await connection.BeginTransactionAsync();
 
-        IReadOnlyList<OutboxMessageResponse> outboxMessageResponses = await GetOutboxMessagesAsync(connection, transaction);
+        IReadOnlyList<OutboxMessageResponse> outboxMessages = await GetOutboxMessagesAsync(connection, transaction);
 
         using IServiceScope serviceScope = serviceScopeFactory.CreateScope();
-        IOptions<JsonOptions> jsonOptions = serviceScope.ServiceProvider.GetRequiredService<IOptions<JsonOptions>>();
 
-        foreach (OutboxMessageResponse outboxMessage in outboxMessageResponses)
+        foreach (OutboxMessageResponse outboxMessage in outboxMessages)
         {
             Exception? exception = null;
 
@@ -47,7 +48,7 @@ internal sealed class ProcessOutboxJob(
             {
                 IDomainEvent? domainEvent = JsonSerializer.Deserialize<IDomainEvent>(
                     outboxMessage.Content,
-                    jsonOptions.Value.SerializerOptions);
+                    _jsonOptions.SerializerOptions);
 
                 if (domainEvent is null)
                 {
@@ -61,7 +62,7 @@ internal sealed class ProcessOutboxJob(
 
                 foreach (IDomainEventHandler domainEventHandler in domainEventHandlers)
                 {
-                    await domainEventHandler.Handle(domainEvent);
+                    await domainEventHandler.Handle(domainEvent, context.CancellationToken);
                 }
             }
             catch (Exception ex)

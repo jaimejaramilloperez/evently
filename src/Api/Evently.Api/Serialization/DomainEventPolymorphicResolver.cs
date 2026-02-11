@@ -1,13 +1,17 @@
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Evently.Common.Application.EventBus;
 using Evently.Common.Domain.DomainEvents;
 using Evently.Modules.Attendance.Domain.Attendees.DomainEvents;
 using Evently.Modules.Attendance.Domain.Tickets.DomainEvents;
 using Evently.Modules.Events.Domain.Categories.DomainEvents;
 using Evently.Modules.Events.Domain.Events.DomainEvents;
+using Evently.Modules.Events.IntegrationEvents;
 using Evently.Modules.Ticketing.Domain.Orders.DomainEvents;
 using Evently.Modules.Ticketing.Domain.Payments.DomainEvents;
+using Evently.Modules.Ticketing.IntegrationEvents;
 using Evently.Modules.Users.Domain.Users.DomainEvents;
+using Evently.Modules.Users.IntegrationEvents;
 using AttendanceEventCreatedDomainEvent = Evently.Modules.Attendance.Domain.Events.DomainEvents.EventCreatedDomainEvent;
 using AttendanceTicketCreatedDomainEvent = Evently.Modules.Attendance.Domain.Tickets.DomainEvents.TicketCreatedDomainEvent;
 using EventsEventCreatedDomainEvent = Evently.Modules.Events.Domain.Events.DomainEvents.EventCreatedDomainEvent;
@@ -55,6 +59,34 @@ public static class DomainEventPolymorphicResolver
                     new JsonDerivedType(typeof(InvalidCheckInAttemptedDomainEvent), "invalid_check_in_attempted"),
                     new JsonDerivedType(typeof(DuplicateCheckInAttemptedDomainEvent), "duplicate_check_in_attempted"),
                     new JsonDerivedType(typeof(AttendanceEventCreatedDomainEvent), "attendance_event_created"),
+                }
+            };
+        }
+
+        if (typeInfo.Type == typeof(IIntegrationEvent) || typeInfo.Type == typeof(IntegrationEvent))
+        {
+            typeInfo.PolymorphismOptions = new()
+            {
+                TypeDiscriminatorPropertyName = "eventName",
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    // Users Module
+                    new JsonDerivedType(typeof(UserRegisteredIntegrationEvent), "user_registered"),
+                    new JsonDerivedType(typeof(UserProfileUpdatedIntegrationEvent), "user_updated"),
+
+                    // Events Module
+                    new JsonDerivedType(typeof(EventPublishedIntegrationEvent), "event_published"),
+                    new JsonDerivedType(typeof(EventRescheduledIntegrationEvent), "event_rescheduled"),
+                    new JsonDerivedType(typeof(TicketTypePriceChangedIntegrationEvent), "ticket_type_price_changed"),
+
+                    // Ticketing Module
+                    new JsonDerivedType(typeof(OrderCreatedIntegrationEvent), "order_created"),
+                    new JsonDerivedType(typeof(TicketArchivedIntegrationEvent), "ticket_archived"),
+                    new JsonDerivedType(typeof(TicketIssuedIntegrationEvent), "ticket_issued"),
+                    new JsonDerivedType(typeof(TicketTypeSoldOutIntegrationEvent), "ticket_type_sold_out"),
+
+                    // Attendance Module
                 }
             };
         }

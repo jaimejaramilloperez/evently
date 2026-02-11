@@ -1,39 +1,39 @@
-﻿using Evently.Common.Application.Exceptions;
+﻿using Evently.Common.Application.EventBus;
+using Evently.Common.Application.Exceptions;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Events.IntegrationEvents;
 using Evently.Modules.Ticketing.Application.Events.CreateEvent;
-using MassTransit;
 using MediatR;
 
 namespace Evently.Modules.Ticketing.Presentation.Events;
 
 public sealed class EventPublishedIntegrationEventConsumer(ISender sender)
-    : IConsumer<EventPublishedIntegrationEvent>
+    : IntegrationEventHandler<EventPublishedIntegrationEvent>
 {
-    public async Task Consume(ConsumeContext<EventPublishedIntegrationEvent> context)
+    public override async Task Handle(
+        EventPublishedIntegrationEvent integrationEvent,
+        CancellationToken cancellationToken = default)
     {
-        List<CreateEventCommand.TicketTypeRequest> ticketTypes = context.Message.TicketTypes
-            .Select(t => new CreateEventCommand.TicketTypeRequest(
-                t.Id,
-                context.Message.EventId,
-                t.Name,
-                t.Price,
-                t.Currency,
-                t.Quantity))
-            .ToList();
-
         CreateEventCommand command = new()
         {
-            EventId = context.Message.EventId,
-            Title = context.Message.Title,
-            Description = context.Message.Description,
-            Location = context.Message.Location,
-            StartsAtUtc = context.Message.StartsAtUtc,
-            EndsAtUtc = context.Message.EndsAtUtc,
-            TicketTypes = ticketTypes,
+            EventId = integrationEvent.EventId,
+            Title = integrationEvent.Title,
+            Description = integrationEvent.Description,
+            Location = integrationEvent.Location,
+            StartsAtUtc = integrationEvent.StartsAtUtc,
+            EndsAtUtc = integrationEvent.EndsAtUtc,
+            TicketTypes = integrationEvent.TicketTypes
+                .Select(t => new CreateEventCommand.TicketTypeRequest(
+                    t.Id,
+                    integrationEvent.EventId,
+                    t.Name,
+                    t.Price,
+                    t.Currency,
+                    t.Quantity))
+                .ToList(),
         };
 
-        Result result = await sender.Send(command, context.CancellationToken);
+        Result result = await sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
         {

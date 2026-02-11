@@ -11,6 +11,8 @@ namespace Evently.Common.Infrastructure.Outbox;
 public sealed class InsertOutboxMessagesInterceptor(IOptions<JsonOptions> jsonOptions)
     : SaveChangesInterceptor
 {
+    private readonly JsonOptions _jsonOptions = jsonOptions.Value;
+
     public override InterceptionResult<int> SavingChanges(
         DbContextEventData eventData,
         InterceptionResult<int> result)
@@ -52,7 +54,7 @@ public sealed class InsertOutboxMessagesInterceptor(IOptions<JsonOptions> jsonOp
             {
                 Id = domainEvent.Id,
                 Type = domainEvent.GetType().Name,
-                Content = JsonSerializer.Serialize(domainEvent, jsonOptions.Value.SerializerOptions),
+                Content = JsonSerializer.Serialize(domainEvent, _jsonOptions.SerializerOptions),
                 OccurredAtUtc = domainEvent.OccurredAtUtc,
             })
             .ToList();

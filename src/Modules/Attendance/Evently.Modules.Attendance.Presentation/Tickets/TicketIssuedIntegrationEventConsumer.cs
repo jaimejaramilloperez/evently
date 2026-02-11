@@ -1,26 +1,28 @@
-﻿using Evently.Common.Application.Exceptions;
+﻿using Evently.Common.Application.EventBus;
+using Evently.Common.Application.Exceptions;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Attendance.Application.Tickets.CreateTicket;
 using Evently.Modules.Ticketing.IntegrationEvents;
-using MassTransit;
 using MediatR;
 
 namespace Evently.Modules.Attendance.Presentation.Tickets;
 
 public sealed class TicketIssuedIntegrationEventConsumer(ISender sender)
-    : IConsumer<TicketIssuedIntegrationEvent>
+    : IntegrationEventHandler<TicketIssuedIntegrationEvent>
 {
-    public async Task Consume(ConsumeContext<TicketIssuedIntegrationEvent> context)
+    public override async Task Handle(
+        TicketIssuedIntegrationEvent integrationEvent,
+        CancellationToken cancellationToken = default)
     {
         CreateTicketCommand command = new()
         {
-            TicketId = context.Message.TicketId,
-            AttendeeId = context.Message.CustomerId,
-            EventId = context.Message.EventId,
-            Code = context.Message.Code,
+            TicketId = integrationEvent.TicketId,
+            AttendeeId = integrationEvent.CustomerId,
+            EventId = integrationEvent.EventId,
+            Code = integrationEvent.Code,
         };
 
-        Result result = await sender.Send(command, context.CancellationToken);
+        Result result = await sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
         {

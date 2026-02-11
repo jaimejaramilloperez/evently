@@ -49,7 +49,11 @@ internal sealed class IdempotentDomainEventHandler<TDomainEvent>(
 
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { Name = outboxMessageConsumer.Name },
+            parameters: new
+            {
+                OutboxMessageId = outboxMessageConsumer.OutboxMessageId,
+                Name = outboxMessageConsumer.Name,
+            },
             cancellationToken: cancellationToken);
 
         return await dbConnection.ExecuteScalarAsync<bool>(command);
@@ -71,7 +75,7 @@ internal sealed class IdempotentDomainEventHandler<TDomainEvent>(
             parameters: new
             {
                 OutboxMessageId = outboxMessageConsumer.OutboxMessageId,
-                Name = outboxMessageConsumer.Name
+                Name = outboxMessageConsumer.Name,
             },
             cancellationToken: cancellationToken);
 
