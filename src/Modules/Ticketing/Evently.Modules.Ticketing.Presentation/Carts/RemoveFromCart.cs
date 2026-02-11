@@ -19,7 +19,7 @@ internal sealed class RemoveFromCart : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("carts/remove", async (Request request, ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken = default) =>
+        app.MapPut("carts/remove", async (Request request, ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken) =>
         {
             RemoveItemFromCartCommand command = new()
             {

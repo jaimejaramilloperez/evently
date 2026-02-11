@@ -14,7 +14,7 @@ internal sealed class GetOrders : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/orders", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken = default) =>
+        app.MapGet("/orders", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken) =>
         {
             GetOrdersQuery query = new(customerContext.CustomerId);
 

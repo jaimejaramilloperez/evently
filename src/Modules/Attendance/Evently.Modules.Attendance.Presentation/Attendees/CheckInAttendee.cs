@@ -19,7 +19,7 @@ internal sealed class CheckInAttendee : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("/attendees/check-in", async (Request request, IAttendanceContext attendanceContext, ISender sender, CancellationToken cancellationToken = default) =>
+        app.MapPut("/attendees/check-in", async (Request request, IAttendanceContext attendanceContext, ISender sender, CancellationToken cancellationToken) =>
         {
             CheckInAttendeeCommand command = new()
             {

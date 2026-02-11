@@ -3,7 +3,7 @@ using Microsoft.OpenApi;
 
 namespace Evently.Api.OpenApi;
 
-public sealed class BearerSecuritySchemeTransformer() : IOpenApiDocumentTransformer
+public sealed class BearerSecuritySchemeTransformer : IOpenApiDocumentTransformer
 {
     public Task TransformAsync(
         OpenApiDocument document,

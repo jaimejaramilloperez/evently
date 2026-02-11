@@ -14,7 +14,7 @@ internal sealed class CreateOrder : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("/orders", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken = default) =>
+        app.MapPost("/orders", async (ICustomerContext customerContext, ISender sender, CancellationToken cancellationToken) =>
         {
             CreateOrderCommand command = new(customerContext.CustomerId);
 
