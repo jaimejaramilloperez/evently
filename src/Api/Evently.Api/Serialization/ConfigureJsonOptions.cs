@@ -15,7 +15,7 @@ public sealed class ConfigureJsonOptions : IConfigureOptions<JsonOptions>
 
         options.SerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = { DomainEventPolymorphicResolver.Resolver },
+            Modifiers = { EventPolymorphicResolver.Resolver },
         };
     }
 }
