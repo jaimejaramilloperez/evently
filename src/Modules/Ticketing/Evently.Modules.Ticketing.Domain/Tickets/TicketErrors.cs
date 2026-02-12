@@ -12,7 +12,7 @@ public static class TicketErrors
         "TicketTypes.NotFound",
         $"The ticket type with the identifier {code} was not found");
 
-    public static Error NotEnoughQuantity(decimal availableQuantity) => Error.Problem(
+    public static Error NotEnoughQuantity => Error.Problem(
         "TicketTypes.NotEnoughQuantity",
-        $"The ticket type has {availableQuantity} quantity available");
+        $"The ticket type has no quantity available");
 }

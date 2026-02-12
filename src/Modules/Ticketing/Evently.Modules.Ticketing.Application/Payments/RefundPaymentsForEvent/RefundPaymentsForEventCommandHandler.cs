@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using Evently.Common.Application.Exceptions;
 using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Ticketing.Application.Abstractions.Data;
@@ -15,27 +16,29 @@ internal sealed class RefundPaymentsForEventCommandHandler(
 {
     public async Task<Result> Handle(RefundPaymentsForEventCommand request, CancellationToken cancellationToken)
     {
-        await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
-
-        Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
-
-        if (@event is null)
+        await unitOfWork.ExecuteWithinStrategyAsync(async () =>
         {
-            return Result.Failure(EventErrors.NotFound(request.EventId));
-        }
+            await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
-        IEnumerable<Payment> payments = await paymentRepository.GetForEventAsync(@event, cancellationToken);
+            Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
 
-        foreach (Payment payment in payments)
-        {
-            payment.Refund(payment.Amount - (payment.AmountRefunded ?? decimal.Zero));
-        }
+            if (@event is null)
+            {
+                throw new EventlyException($"Event {request.EventId} not found");
+            }
 
-        @event.PaymentsRefunded();
+            IEnumerable<Payment> payments = await paymentRepository.GetForEventAsync(@event, cancellationToken);
 
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+            foreach (Payment payment in payments)
+            {
+                payment.Refund(payment.Amount - (payment.AmountRefunded ?? decimal.Zero));
+            }
 
-        await transaction.CommitAsync(cancellationToken);
+            @event.PaymentsRefunded();
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }, cancellationToken);
 
         return Result.Success();
     }

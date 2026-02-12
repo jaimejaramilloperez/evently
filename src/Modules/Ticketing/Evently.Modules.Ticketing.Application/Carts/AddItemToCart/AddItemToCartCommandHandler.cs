@@ -28,6 +28,11 @@ internal sealed class AddItemToCartCommandHandler(
             return Result.Failure(TicketErrors.NotFound(request.TicketTypeId));
         }
 
+        if (ticketType.AvailableQuantity == 0)
+        {
+            return Result.Failure(TicketErrors.NotEnoughQuantity);
+        }
+
         CartItem cartItem = new()
         {
             TicketTypeId = ticketType.Id,

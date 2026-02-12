@@ -37,7 +37,7 @@ internal sealed class CreateTicketType : IEndpoint
             Result<TicketTypeResponse> result = await sender.Send(command, cancellationToken);
 
             return result.Match(() =>
-                Results.Created(new Uri($"/api/ticket-types/{result.Value.Id}"), result.Value),
+                Results.Created(new Uri($"/api/ticket-types/{result.Value.Id}", UriKind.Relative), result.Value),
                 CustomResults.Problem);
         })
         .RequireAuthorization(Permissions.ModifyTicketTypes)

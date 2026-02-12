@@ -6,4 +6,5 @@ public interface IUnitOfWork
 {
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task<DbTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
+    Task ExecuteWithinStrategyAsync(Func<Task> action, CancellationToken cancellationToken = default);
 }

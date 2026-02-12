@@ -10,11 +10,11 @@ public sealed class UserProfileUpdatedIntegrationEvent : IntegrationEvent
 
     public UserProfileUpdatedIntegrationEvent(
         Guid id,
-        DateTime occurredOnUtc,
+        DateTime occurredAtUtc,
         Guid userId,
         string firstName,
         string lastName)
-        : base(id, occurredOnUtc)
+        : base(id, occurredAtUtc)
     {
         UserId = userId;
         FirstName = firstName;

@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Abstractions" />
+    <PackageReference Include="MassTransit" />
   </ItemGroup>
 
   <ItemGroup>

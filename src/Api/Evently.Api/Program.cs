@@ -45,6 +45,7 @@ builder.Services.AddApplication([
 ]);
 
 builder.Services.AddInfrastructure(builder.Configuration, [
+    EventsModule.ConfigureConsumers(builder.Configuration.GetConnectionStringOrThrow("Cache")),
     TicketingModule.ConfigureConsumers,
     AttendanceModule.ConfigureConsumers,
 ]);

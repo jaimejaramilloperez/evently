@@ -9,10 +9,10 @@ public sealed class TicketArchivedIntegrationEvent : IntegrationEvent
 
     public TicketArchivedIntegrationEvent(
         Guid id,
-        DateTime occurredOnUtc,
+        DateTime occurredAtUtc,
         Guid ticketId,
         string code)
-        : base(id, occurredOnUtc)
+        : base(id, occurredAtUtc)
     {
         TicketId = ticketId;
         Code = code;

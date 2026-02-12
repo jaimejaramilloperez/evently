@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using Evently.Common.Application.Exceptions;
 using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Ticketing.Application.Abstractions.Data;
@@ -15,27 +16,29 @@ internal sealed class ArchiveTicketsForEventCommandHandler(
 {
     public async Task<Result> Handle(ArchiveTicketsForEventCommand request, CancellationToken cancellationToken)
     {
-        await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
-
-        Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
-
-        if (@event is null)
+        await unitOfWork.ExecuteWithinStrategyAsync(async () =>
         {
-            return Result.Failure(EventErrors.NotFound(request.EventId));
-        }
+            await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
-        IEnumerable<Ticket> tickets = await ticketRepository.GetForEventAsync(@event, cancellationToken);
+            Event? @event = await eventRepository.GetAsync(request.EventId, cancellationToken);
 
-        foreach (Ticket ticket in tickets)
-        {
-            ticket.Archive();
-        }
+            if (@event is null)
+            {
+                throw new EventlyException($"Event {request.EventId} not found");
+            }
 
-        @event.TicketsArchived();
+            IEnumerable<Ticket> tickets = await ticketRepository.GetForEventAsync(@event, cancellationToken);
 
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+            foreach (Ticket ticket in tickets)
+            {
+                ticket.Archive();
+            }
 
-        await transaction.CommitAsync(cancellationToken);
+            @event.TicketsArchived();
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }, cancellationToken);
 
         return Result.Success();
     }

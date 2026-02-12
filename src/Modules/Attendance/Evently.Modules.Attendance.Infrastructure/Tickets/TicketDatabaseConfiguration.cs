@@ -12,9 +12,6 @@ internal sealed class TicketDatabaseConfiguration : IEntityTypeConfiguration<Tic
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Code)
-            .HasMaxLength(30);
-
         builder.HasIndex(x => x.Code)
             .IsUnique();
 
