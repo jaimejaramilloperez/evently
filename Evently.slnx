@@ -41,6 +41,7 @@
   <Folder Name="/src/Modules/Events/test/">
     <Project
       Path="src/Modules/Events/test/Evently.Modules.Events.ArchitectureTests/Evently.Modules.Events.ArchitectureTests.csproj" />
+    <Project Path="src/Modules/Events/test/Evently.Modules.Events.UnitTests/Evently.Modules.Events.UnitTests.csproj" />
   </Folder>
 
   <Folder Name="/src/Modules/Ticketing/">
