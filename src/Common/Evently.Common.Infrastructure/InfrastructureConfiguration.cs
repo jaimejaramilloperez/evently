@@ -41,7 +41,12 @@ public static class InfrastructureConfiguration
 
         services.AddAuthorizationInternal();
 
-        services.AddQuartz();
+        services.AddQuartz(options =>
+        {
+            Guid scheduler = Guid.NewGuid();
+            options.SchedulerId = $"default-id-{scheduler}";
+            options.SchedulerName = $"default-name-{scheduler}";
+        });
 
         services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
 

@@ -73,6 +73,8 @@
   <Folder Name="/src/Modules/Users/test/">
     <Project
       Path="src/Modules/Users/test/Evently.Modules.Users.ArchitectureTests/Evently.Modules.Users.ArchitectureTests.csproj" />
+    <Project
+      Path="src/Modules/Users/test/Evently.Modules.Users.IntegrationTests/Evently.Modules.Users.IntegrationTests.csproj" />
   </Folder>
 
   <Folder Name="/test/">

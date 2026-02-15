@@ -461,6 +461,9 @@ dotnet_diagnostic.CA1860.severity = suggestion
 # CA1862: Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
 dotnet_diagnostic.CA1862.severity = suggestion
 
+# CA1873: Avoid potentially expensive logging
+dotnet_diagnostic.CA1873.severity = suggestion
+
 # CA2007: Do not directly await a Task
 dotnet_diagnostic.CA2007.severity = none
 
