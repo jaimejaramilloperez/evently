@@ -1,14 +1,14 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0.2-alpine3.22@sha256:691602d0ab66cedd8b9d393a141cb75167e645274a4126a30b457ac51969f6df AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0.3-alpine3.22@sha256:e0fd89188698106364ea47cd6bbedc1fdea99363766932a1f4c256c87631ec53 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0.2-alpine3.22@sha256:691602d0ab66cedd8b9d393a141cb75167e645274a4126a30b457ac51969f6df AS base-dev
+FROM mcr.microsoft.com/dotnet/aspnet:10.0.3-alpine3.22@sha256:e0fd89188698106364ea47cd6bbedc1fdea99363766932a1f4c256c87631ec53 AS base-dev
 WORKDIR /app
 COPY ["src/Api/Evently.Api/certificate.pfx", "/https/certificate.pfx"]
 RUN chmod 644 /https/certificate.pfx
 RUN apk update && apk add curl && curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v vs2019 -l /remote_debugger
 
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0.102-alpine3.22@sha256:c9df51f6d2219e3d142d0b46af790c33ac5207a8b12b82ce528c0dd935b25d48 AS restore
+FROM mcr.microsoft.com/dotnet/sdk:10.0.103-alpine3.22@sha256:bb9890f2f2dbefa91b161feecfe6f85fd4c8c9e3933158c54287f37f611d5ed5 AS restore
 WORKDIR /src
 COPY ["nuget.config", "global.json", "Directory.Build.props", "Directory.Packages.props", "Evently.slnx", "./"]
 COPY --parents ["src/**/*.csproj", "./"]
@@ -29,6 +29,7 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Evently.slnx" \
   -c $BUILD_CONFIGURATION \
   --no-restore \
+  --no-build \
   --nologo \
   -p:PublishDir=/app/publish \
   -p:UseAppHost=false \
