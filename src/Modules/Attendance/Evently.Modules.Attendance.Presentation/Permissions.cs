@@ -2,6 +2,7 @@
 
 internal static class Permissions
 {
+    internal const string GetAttendeeProfile = "attendees:profile";
     internal const string CheckInTicket = "tickets:check-in";
     internal const string GetEventStatistics = "event-statistics:read";
 }
