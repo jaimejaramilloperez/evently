@@ -29,7 +29,7 @@ public sealed class Event : Entity
         DateTime startsAtUtc,
         DateTime? endsAtUtc)
     {
-        if (startsAtUtc < timeProvider.GetUtcNow().UtcDateTime.Subtract(EventConstants.AllowedClockSkew))
+        if (startsAtUtc < timeProvider.GetUtcNow().Subtract(EventConstants.AllowedClockSkew).UtcDateTime)
         {
             return Result.Failure<Event>(EventErrors.StartDateInPast);
         }

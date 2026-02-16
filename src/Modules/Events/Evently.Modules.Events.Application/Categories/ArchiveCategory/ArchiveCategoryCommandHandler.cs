@@ -17,7 +17,12 @@ internal sealed class ArchiveCategoryCommandHandler(ICategoryRepository category
             return Result.Failure(CategoryErrors.NotFound(request.CategoryId));
         }
 
-        category.Archive();
+        Result result = category.Archive();
+
+        if (!result.IsSuccess)
+        {
+            return Result.Failure(result.Error);
+        }
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Evently.Common.Application.Exceptions;
 using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Ticketing.Application.Abstractions.Data;
@@ -24,7 +23,7 @@ internal sealed class CreateOrderCommandHandler(
 {
     public async Task<Result> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.ExecuteWithinStrategyAsync(async () =>
+        return await unitOfWork.ExecuteWithinStrategyAsync(async () =>
         {
             await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
@@ -32,7 +31,7 @@ internal sealed class CreateOrderCommandHandler(
 
             if (customer is null)
             {
-                throw new EventlyException(CustomerErrors.NotFound(request.CustomerId).Description);
+                return Result.Failure(CustomerErrors.NotFound(request.CustomerId));
             }
 
             Order order = Order.Create(customer);
@@ -41,7 +40,7 @@ internal sealed class CreateOrderCommandHandler(
 
             if (cart.Items.Count == 0)
             {
-                throw new EventlyException(CartErrors.Empty.Description);
+                return Result.Failure(CartErrors.Empty);
             }
 
             foreach (CartItem cartItem in cart.Items)
@@ -53,14 +52,14 @@ internal sealed class CreateOrderCommandHandler(
 
                 if (ticketType is null)
                 {
-                    throw new EventlyException(TicketTypeErrors.NotFound(cartItem.TicketTypeId).Description);
+                    return Result.Failure(TicketTypeErrors.NotFound(cartItem.TicketTypeId));
                 }
 
                 Result result = ticketType.UpdateQuantity(cartItem.Quantity);
 
                 if (result.IsFailure)
                 {
-                    throw new EventlyException(result.Error.Description);
+                    return Result.Failure(result.Error);
                 }
 
                 order.AddItem(ticketType, cartItem.Quantity, cartItem.Price, ticketType.Currency);
@@ -83,8 +82,8 @@ internal sealed class CreateOrderCommandHandler(
             await transaction.CommitAsync(cancellationToken);
 
             await cartService.ClearAsync(customer.Id, cancellationToken);
-        }, cancellationToken);
 
-        return Result.Success();
+            return Result.Success();
+        }, cancellationToken);
     }
 }

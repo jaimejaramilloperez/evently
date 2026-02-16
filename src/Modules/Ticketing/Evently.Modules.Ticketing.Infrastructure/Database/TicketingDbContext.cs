@@ -59,9 +59,9 @@ public sealed class TicketingDbContext(DbContextOptions<TicketingDbContext> opti
         return dbContextTransaction.GetDbTransaction();
     }
 
-    public async Task ExecuteWithinStrategyAsync(Func<Task> action, CancellationToken cancellationToken = default)
+    public async Task<T> ExecuteWithinStrategyAsync<T>(Func<Task<T>> action, CancellationToken cancellationToken = default)
     {
         IExecutionStrategy strategy = Database.CreateExecutionStrategy();
-        await strategy.ExecuteAsync(action);
+        return await strategy.ExecuteAsync(action);
     }
 }

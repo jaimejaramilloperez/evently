@@ -15,7 +15,7 @@ public class EventTests : BaseTest
     public void Create_ShouldReturnFailure_WhenEndDatePrecedesStartDate()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
         DateTime endsAtUtc = startsAtUtc.AddMinutes(-1);
 
@@ -23,9 +23,9 @@ public class EventTests : BaseTest
         Result<Event> sut = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             endsAtUtc);
 
@@ -39,16 +39,16 @@ public class EventTests : BaseTest
     public void Create_ShouldRaiseADomainEvent_WhenEventIsCreated()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
 
         // Act
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -67,15 +67,15 @@ public class EventTests : BaseTest
     public void Publish_ShouldReturnFailure_WhenEventNotDraft()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -97,15 +97,15 @@ public class EventTests : BaseTest
     public void Publish_ShouldRaiseDomainEvent_WhenEventPublished()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -127,15 +127,15 @@ public class EventTests : BaseTest
     public void Reschedule_ShouldRaiseDomainEvent_WhenEventRescheduled()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -157,16 +157,16 @@ public class EventTests : BaseTest
     public void Cancel_ShouldRaiseDomainEvent_WhenEventCanceled()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
         _timeProvider.SetUtcNow(startsAtUtc.AddMinutes(-1));
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -188,16 +188,16 @@ public class EventTests : BaseTest
     public void Cancel_ShouldReturnFailure_WhenEventAlreadyCanceled()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
         _timeProvider.SetUtcNow(startsAtUtc.AddMinutes(-1));
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -218,16 +218,16 @@ public class EventTests : BaseTest
     public void Cancel_ShouldReturnFailure_WhenEventAlreadyStarted()
     {
         // Arrange
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
         _timeProvider.SetUtcNow(startsAtUtc.AddMinutes(1));
 
         Result<Event> result = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 

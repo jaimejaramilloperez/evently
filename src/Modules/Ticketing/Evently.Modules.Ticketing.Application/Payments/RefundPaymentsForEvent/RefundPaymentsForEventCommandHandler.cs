@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using Evently.Common.Application.Exceptions;
 using Evently.Common.Application.Messaging;
 using Evently.Common.Domain.Results;
 using Evently.Modules.Ticketing.Application.Abstractions.Data;
@@ -16,7 +15,7 @@ internal sealed class RefundPaymentsForEventCommandHandler(
 {
     public async Task<Result> Handle(RefundPaymentsForEventCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.ExecuteWithinStrategyAsync(async () =>
+        return await unitOfWork.ExecuteWithinStrategyAsync(async () =>
         {
             await using DbTransaction transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
@@ -24,7 +23,7 @@ internal sealed class RefundPaymentsForEventCommandHandler(
 
             if (@event is null)
             {
-                throw new EventlyException($"Event {request.EventId} not found");
+                return Result.Failure(EventErrors.NotFound(request.EventId));
             }
 
             IEnumerable<Payment> payments = await paymentRepository.GetForEventAsync(@event, cancellationToken);
@@ -38,8 +37,8 @@ internal sealed class RefundPaymentsForEventCommandHandler(
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-        }, cancellationToken);
 
-        return Result.Success();
+            return Result.Success();
+        }, cancellationToken);
     }
 }

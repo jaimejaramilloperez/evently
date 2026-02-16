@@ -11,7 +11,7 @@ public class CategoryTests : BaseTest
     public void Create_ShouldRaiseDomainEvent_WhenCategoryIsCreated()
     {
         // Act
-        Result<Category> sut = Category.Create(Faker.Music.Genre());
+        Result<Category> sut = Category.Create(Faker.Random.AlphaNumeric(10));
 
         // Assert
         Assert.NotNull(sut);
@@ -26,7 +26,7 @@ public class CategoryTests : BaseTest
     public void Archive_ShouldRaiseDomainEvent_WhenCategoryIsArchived()
     {
         // Arrange
-        Result<Category> result = Category.Create(Faker.Music.Genre());
+        Result<Category> result = Category.Create(Faker.Random.AlphaNumeric(10));
 
         Category sut = result.Value;
 
@@ -46,10 +46,10 @@ public class CategoryTests : BaseTest
     public void ChangeName_ShouldRaiseDomainEvent_WhenCategoryNameIsChanged()
     {
         // Arrange
-        Result<Category> result = Category.Create(Faker.Music.Genre());
+        Result<Category> result = Category.Create(Faker.Random.AlphaNumeric(10));
         Category sut = result.Value;
 
-        string newName = Faker.Music.Genre();
+        string newName = Faker.Random.AlphaNumeric(10);
 
         // Act
         sut.ChangeName(newName);

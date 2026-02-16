@@ -28,7 +28,8 @@ internal sealed class CreateEventCommandValidator : AbstractValidator<CreateEven
         RuleFor(x => x.StartsAtUtc)
             .NotEmpty()
             .WithMessage("The start date is required.")
-            .Must(x => x >= timeProvider.GetUtcNow().UtcDateTime.Subtract(EventConstants.AllowedClockSkew))
+            .Must(x => x >= timeProvider.GetUtcNow().Subtract(EventConstants.AllowedClockSkew).UtcDateTime)
+            .WithErrorCode(EventErrors.StartDateInPast.Code)
             .WithMessage("The start date cannot be in the past.");
 
         RuleFor(x => x.EndsAtUtc)

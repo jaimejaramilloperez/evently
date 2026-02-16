@@ -15,15 +15,15 @@ public class TicketTypeTests : BaseTest
 
     public TicketTypeTests()
     {
-        Category category = Category.Create(Faker.Music.Genre());
+        Category category = Category.Create(Faker.Random.AlphaNumeric(10));
         DateTime startsAtUtc = DateTime.UtcNow;
 
         Result<Event> eventResult = Event.Create(
             _timeProvider,
             category.Id,
-            Faker.Music.Genre(),
-            Faker.Music.Genre(),
-            Faker.Address.StreetAddress(),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
+            Faker.Random.AlphaNumeric(10),
             startsAtUtc,
             null);
 
@@ -38,9 +38,9 @@ public class TicketTypeTests : BaseTest
         // Act
         Result<TicketType> sut = TicketType.Create(
             _event.Id,
-            Faker.Music.Genre(),
+            Faker.Random.AlphaNumeric(10),
             Faker.Random.Decimal(),
-            Faker.Random.String(),
+            Faker.Random.AlphaNumeric(10),
             Faker.Random.Decimal());
 
         // Assert
@@ -55,9 +55,9 @@ public class TicketTypeTests : BaseTest
         // Arrange
         Result<TicketType> result = TicketType.Create(
             _event.Id,
-            Faker.Music.Genre(),
+            Faker.Random.AlphaNumeric(10),
             Faker.Random.Decimal(),
-            Faker.Random.String(),
+            Faker.Random.AlphaNumeric(10),
             Faker.Random.Decimal());
 
         TicketType sut = result.Value;

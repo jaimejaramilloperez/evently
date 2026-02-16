@@ -47,17 +47,17 @@ public abstract class BaseIntegrationTest(IntegrationTestWebAppFactory appFactor
         {
             TicketTypeId = ticketTypeId,
             EventId = eventId,
-            Name = Faker.Music.Genre(),
+            Name = Faker.Random.AlphaNumeric(10),
             Price = Faker.Random.Decimal(),
-            Currency = "USD",
+            Currency = Faker.Random.AlphaNumeric(3),
             Quantity = quantity,
         };
 
         CreateEventCommand command = new()
         {
             EventId = eventId,
-            Title = Faker.Music.Genre(),
-            Description = Faker.Music.Genre(),
+            Title = Faker.Random.AlphaNumeric(10),
+            Description = Faker.Random.AlphaNumeric(10),
             Location = Faker.Address.FullAddress(),
             StartsAtUtc = DateTime.UtcNow,
             EndsAtUtc = null,
