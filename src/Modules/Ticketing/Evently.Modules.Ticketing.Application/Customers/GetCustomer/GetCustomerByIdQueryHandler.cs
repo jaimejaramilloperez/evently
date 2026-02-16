@@ -29,7 +29,7 @@ internal sealed class GetCustomerByIdQueryHandler(IDbConnectionFactory dbConnect
 
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { UserId = request.CustomerId },
+            parameters: new { CustomerId = request.CustomerId },
             cancellationToken: cancellationToken);
 
         CustomerResponse? customer = await connection.QueryFirstOrDefaultAsync<CustomerResponse>(command);

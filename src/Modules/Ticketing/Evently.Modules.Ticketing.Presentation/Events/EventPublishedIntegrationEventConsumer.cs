@@ -23,13 +23,15 @@ public sealed class EventPublishedIntegrationEventConsumer(ISender sender)
             StartsAtUtc = integrationEvent.StartsAtUtc,
             EndsAtUtc = integrationEvent.EndsAtUtc,
             TicketTypes = integrationEvent.TicketTypes
-                .Select(t => new CreateEventCommand.TicketTypeRequest(
-                    t.Id,
-                    integrationEvent.EventId,
-                    t.Name,
-                    t.Price,
-                    t.Currency,
-                    t.Quantity))
+                .Select(x => new CreateEventCommand.TicketTypeRequest()
+                {
+                    TicketTypeId = x.Id,
+                    EventId = integrationEvent.EventId,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Currency = x.Currency,
+                    Quantity = x.Quantity,
+                })
                 .ToList(),
         };
 
