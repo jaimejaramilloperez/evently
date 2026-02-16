@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -6,7 +6,7 @@ using Testcontainers.Keycloak;
 using Testcontainers.PostgreSql;
 using Testcontainers.Redis;
 
-namespace Evently.Modules.Users.IntegrationTests.Abstractions;
+namespace Evently.IntegrationTests.Abstractions;
 
 public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -63,6 +63,14 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                 ["Authentication:MetadataAddress"] = $"{keyCloakAddress}/.well-known/openid-configuration",
                 ["Users:KeyCloak:AdminUrl"] = $"{keyCloakAddress}admin/realms/evently/",
                 ["Users:KeyCloak:TokenUrl"] = $"{keyCloakRealmUrl}/protocol/openid-connect/token",
+                ["Users:Outbox:IntervalInSeconds"] = "5",
+                ["Users:Inbox:IntervalInSeconds"] = "5",
+                ["Events:Outbox:IntervalInSeconds"] = "5",
+                ["Events:Inbox:IntervalInSeconds"] = "5",
+                ["Ticketing:Outbox:IntervalInSeconds"] = "5",
+                ["Ticketing:Inbox:IntervalInSeconds"] = "5",
+                ["Attendance:Outbox:IntervalInSeconds"] = "5",
+                ["Attendance:Inbox:IntervalInSeconds"] = "5",
             };
 
             configBuilder.AddInMemoryCollection(configurationOverrides);
