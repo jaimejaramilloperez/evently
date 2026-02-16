@@ -12,14 +12,17 @@
     "dpage",
     "evently",
     "Evently",
+    "github",
     "healthcheck",
     "isready",
     "LINQ",
     "Mediat",
+    "nameof",
     "nologo",
     "NOWAIT",
     "npgsql",
     "Npgsql",
+    "nullable",
     "pgadmin",
     "postgres",
     "postgresql",
@@ -33,6 +36,10 @@
     "uninstantiated",
     "usersecrets",
     "uuidv",
+    "webapps",
     "xunit"
-  ]
+  ],
+  "yaml.schemas": {
+    "https://www.schemastore.org/github-workflow.json": ".github/workflows/pipeline.yml"
+  }
 }
