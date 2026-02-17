@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Evently.Api.Extensions;
 using Evently.Api.Middlewares;
 using Evently.Api.OpenApi;
+using Evently.Api.OpenTelemetry;
 using Evently.Api.Serialization;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
@@ -44,7 +45,7 @@ builder.Services.AddApplication([
     Evently.Modules.Attendance.Application.AssemblyReference.Assembly,
 ]);
 
-builder.Services.AddInfrastructure(builder.Configuration, [
+builder.Services.AddInfrastructure(DiagnosticsConfig.ServiceName, builder.Configuration, [
     EventsModule.ConfigureConsumers(builder.Configuration.GetConnectionStringOrThrow("Cache")),
     TicketingModule.ConfigureConsumers,
     AttendanceModule.ConfigureConsumers,
@@ -82,16 +83,18 @@ app.UseHttpsRedirection();
 
 app.UseExceptionHandler();
 
+app.UseLogContextTraceLogging();
+
 app.UseSerilogRequestLogging();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapHealthChecks("/health", new()
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponseNoExceptionDetails,
 });
-
-app.UseAuthentication();
-
-app.UseAuthorization();
 
 RouteGroupBuilder apiGroup = app.MapGroup("/api");
 

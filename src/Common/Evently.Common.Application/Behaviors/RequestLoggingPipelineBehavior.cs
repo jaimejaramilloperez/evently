@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Evently.Common.Domain.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,9 @@ public sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
     {
         string moduleName = GetModuleName(typeof(TRequest).FullName ?? "Unknown");
         string requestName = typeof(TRequest).Name;
+
+        Activity.Current?.SetTag("request.module", moduleName);
+        Activity.Current?.SetTag("request.name", requestName);
 
         using (LogContext.PushProperty("Module", moduleName))
         {

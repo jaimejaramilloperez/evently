@@ -94,6 +94,15 @@ services:
     volumes:
       - seq-data:/data
 
+  evently.jaeger:
+    container_name: evently.jaeger
+    image: jaegertracing/jaeger:2.15.1
+    restart: unless-stopped
+    ports:
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+
 volumes:
   postgres-data:
   pgadmin-data:

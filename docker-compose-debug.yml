@@ -19,6 +19,8 @@ services:
       ASPNETCORE_HTTPS_PORTS: ${HTTPS_PORT}
       ASPNETCORE_Kestrel__Certificates__Default__Path: ${CERTIFICATE_PATH}
       ASPNETCORE_Kestrel__Certificates__Default__Password: ${CERTIFICATE_PASSWORD}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL}
       Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
       ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
       ConnectionStrings__Cache: ${CACHE_CONNECTION_STRING}
@@ -139,6 +141,16 @@ services:
       SEQ_PASSWORD: ${SEQ_PASSWORD}
     volumes:
       - seq-data:/data
+
+  evently.jaeger:
+    container_name: evently.jaeger
+    image: jaegertracing/jaeger:2.15.1
+    restart: unless-stopped
+    expose:
+      - 4317
+      - 4318
+    ports:
+      - 16686:16686
 
 volumes:
   postgres-data:
