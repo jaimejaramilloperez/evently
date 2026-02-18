@@ -24,12 +24,15 @@ services:
       Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
       ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
       ConnectionStrings__Cache: ${CACHE_CONNECTION_STRING}
+      ConnectionStrings__Queue: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@evently.queue"
       Authentication_Audience: ${AUTHENTICATION_AUDIENCE}
       Authentication__TokenValidationParameters__ValidIssuers__1: ${AUTHENTICATION_VALID_ISSUERS_1}
       Authentication__TokenValidationParameters__ValidIssuers__2: ${AUTHENTICATION_VALID_ISSUERS_2}
       Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
       Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
       KeyCloak__HealthUrl: ${KEYCLOAK_HEALTH_Url}
+      RabbitMq__User: ${RABBITMQ_USER}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
       Users__KeyCloak__AdminUrl: ${USERS_KEYCLOAK_ADMIN_URL}
       Users__KeyCloak__TokenUrl: ${USERS_KEYCLOAK_TOKEN_URL}
       Users__KeyCloak__ConfidentialClientId: ${USERS_KEYCLOAK_CONFIDENTIAL_CLIENT_ID}
@@ -42,6 +45,9 @@ services:
         condition: service_healthy
         restart: true
       evently.cache:
+        condition: service_healthy
+        restart: true
+      evently.queue:
         condition: service_healthy
         restart: true
 
@@ -95,6 +101,27 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
       - ./files:/opt/keycloak/data/import
+
+  evently.queue:
+    container_name: evently.queue
+    image: rabbitmq:4.2.4-management-alpine
+    restart: unless-stopped
+    hostname: evently-queue
+    expose:
+      - 5672
+    ports:
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      start_period: 10s
+      interval: 10s
+      retries: 3
+      timeout: 10s
 
   evently.pgAdmin:
     container_name: evently.pgAdmin
@@ -154,8 +181,9 @@ services:
 
 volumes:
   postgres-data:
+  keycloak-data:
+  rabbitmq-data:
   pgadmin-data:
     external: true
   redis-insight-data:
   seq-data:
-  keycloak-data:

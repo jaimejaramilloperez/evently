@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "amqp",
     "appsettings",
     "aspnet",
     "ASPNETCORE",
@@ -28,6 +29,7 @@
     "pgadmin",
     "postgres",
     "postgresql",
+    "rabbitmq",
     "redis",
     "redisinsight",
     "requirepass",

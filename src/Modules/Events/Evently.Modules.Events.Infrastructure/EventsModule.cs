@@ -38,10 +38,11 @@ public static class EventsModule
         return services;
     }
 
-    public static Action<IRegistrationConfigurator> ConfigureConsumers(string redisConnectionString)
+    public static Action<IRegistrationConfigurator, string> ConfigureConsumers(string redisConnectionString)
     {
-        return (registrationConfigurator) => registrationConfigurator
+        return (registrationConfigurator, instanceId) => registrationConfigurator
             .AddSagaStateMachine<CancelEventSagaDefinition, CancelEventState>()
+            .Endpoint(x => x.InstanceId = instanceId)
             .RedisRepository(redisConnectionString);
     }
 

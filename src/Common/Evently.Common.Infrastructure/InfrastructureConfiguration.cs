@@ -16,6 +16,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Quartz;
+using RabbitMQ.Client;
 using StackExchange.Redis;
 
 namespace Evently.Common.Infrastructure;
@@ -26,7 +27,8 @@ public static class InfrastructureConfiguration
         this IServiceCollection services,
         string serviceName,
         IConfiguration configuration,
-        Action<IRegistrationConfigurator>[] moduleConfigureConsumers)
+        Action<IRegistrationConfigurator, string>[] moduleConfigureConsumers,
+        string rabbitMqConnectionString)
     {
         string databaseConnectionString = configuration.GetConnectionStringOrThrow("Database");
         string redisConnectionString = configuration.GetConnectionStringOrThrow("Cache");
@@ -75,19 +77,37 @@ public static class InfrastructureConfiguration
 
         services.TryAddSingleton<ICacheService, CacheService>();
 
+        services.TryAddSingleton<IConnection>(sp =>
+        {
+            ConnectionFactory factory = new()
+            {
+                Uri = new Uri(rabbitMqConnectionString),
+            };
+
+            return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+        });
+
         services.TryAddSingleton<IEventBus, EventBus.EventBus>();
 
         services.AddMassTransit(options =>
         {
             options.SetKebabCaseEndpointNameFormatter();
 
-            foreach (Action<IRegistrationConfigurator> configureConsumer in moduleConfigureConsumers)
+            string instanceId = serviceName.ToLowerInvariant().Replace('.', '-');
+
+            foreach (Action<IRegistrationConfigurator, string> configureConsumer in moduleConfigureConsumers)
             {
-                configureConsumer(options);
+                configureConsumer(options, instanceId);
             }
 
-            options.UsingInMemory((context, config) =>
+            options.UsingRabbitMq((context, config) =>
             {
+                config.Host(new Uri(rabbitMqConnectionString), rabbitConfig =>
+                {
+                    rabbitConfig.Username(configuration.GetSection("RabbitMq").GetValue<string>("User")!);
+                    rabbitConfig.Password(configuration.GetSection("RabbitMq").GetValue<string>("Password")!);
+                });
+
                 config.ConfigureEndpoints(context);
             });
         });

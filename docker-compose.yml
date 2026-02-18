@@ -49,6 +49,26 @@ services:
       - keycloak-data:/opt/keycloak/data
       - ./files:/opt/keycloak/data/import
 
+  evently.queue:
+    container_name: evently.queue
+    image: rabbitmq:4.2.4-management-alpine
+    restart: unless-stopped
+    hostname: evently-queue
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+      start_period: 10s
+      interval: 10s
+      retries: 3
+      timeout: 10s
+
   evently.pgAdmin:
     container_name: evently.pgAdmin
     image: dpage/pgadmin4:9.11.0
@@ -105,8 +125,9 @@ services:
 
 volumes:
   postgres-data:
+  keycloak-data:
+  rabbitmq-data:
   pgadmin-data:
     external: true
   redis-insight-data:
   seq-data:
-  keycloak-data:

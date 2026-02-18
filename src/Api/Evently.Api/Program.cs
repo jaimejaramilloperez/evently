@@ -49,7 +49,7 @@ builder.Services.AddInfrastructure(DiagnosticsConfig.ServiceName, builder.Config
     EventsModule.ConfigureConsumers(builder.Configuration.GetConnectionStringOrThrow("Cache")),
     TicketingModule.ConfigureConsumers,
     AttendanceModule.ConfigureConsumers,
-]);
+], builder.Configuration.GetConnectionStringOrThrow("Queue"));
 
 builder.Configuration.AddModuleConfiguration(["events", "users", "ticketing", "attendance"]);
 
@@ -61,7 +61,8 @@ builder.Services.AddAttendanceModule(builder.Configuration);
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionStringOrThrow("Database"))
     .AddRedis(builder.Configuration.GetConnectionStringOrThrow("Cache"))
-    .AddKeyCloak(builder.Configuration.GetValueOrThrow<string>("KeyCloak:HealthUrl"));
+    .AddKeyCloak(builder.Configuration.GetValueOrThrow<string>("KeyCloak:HealthUrl"))
+    .AddRabbitMQ();
 
 var app = builder.Build();
 
