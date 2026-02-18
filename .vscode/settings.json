@@ -41,7 +41,8 @@
     "usersecrets",
     "uuidv",
     "webapps",
-    "xunit"
+    "xunit",
+    "Yarp"
   ],
   "yaml.schemas": {
     "https://www.schemastore.org/github-workflow.json": ".github/workflows/pipeline.yml"

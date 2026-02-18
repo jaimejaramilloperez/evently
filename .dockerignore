@@ -12,6 +12,7 @@
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
+**/*.http
 **/bin
 **/charts
 **/docker-compose*

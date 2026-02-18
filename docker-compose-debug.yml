@@ -51,6 +51,38 @@ services:
         condition: service_healthy
         restart: true
 
+  evently.gateway:
+    container_name: evently.gateway
+    image: ${DOCKER_REGISTRY-}evently.gateway:${DOCKER_IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: src/Api/Evently.Gateway/Dockerfile
+      target: ${DOCKER_BUILD_TARGET}
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+    restart: unless-stopped
+    ports:
+      - ${GATEWAY_HTTP_PORT}:${GATEWAY_HTTP_PORT}
+      - ${GATEWAY_HTTPS_PORT}:${GATEWAY_HTTPS_PORT}
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: 1
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT}
+      ASPNETCORE_HTTP_PORTS: ${GATEWAY_HTTP_PORT}
+      ASPNETCORE_HTTPS_PORTS: ${GATEWAY_HTTPS_PORT}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: ${GATEWAY_CERTIFICATE_PATH}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${GATEWAY_CERTIFICATE_PASSWORD}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL}
+      Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
+      Authentication_Audience: ${AUTHENTICATION_AUDIENCE}
+      Authentication__TokenValidationParameters__ValidIssuers__1: ${AUTHENTICATION_VALID_ISSUERS_1}
+      Authentication__TokenValidationParameters__ValidIssuers__2: ${AUTHENTICATION_VALID_ISSUERS_2}
+      Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
+      Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
+      ReverseProxy__Clusters__evently-cluster__Destinations__evently-api__Address: "https://evently.api:${HTTPS_PORT}"
+    volumes:
+      - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
+
   evently.database:
     container_name: evently.database
     image: postgres:18.1-alpine3.23

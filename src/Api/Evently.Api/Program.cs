@@ -33,7 +33,7 @@ builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = 
     context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
 
     Activity? activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
-    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.TraceId);
 });
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
