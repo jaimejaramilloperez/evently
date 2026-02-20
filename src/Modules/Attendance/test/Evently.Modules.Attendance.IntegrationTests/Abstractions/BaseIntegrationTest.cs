@@ -38,7 +38,8 @@ public abstract class BaseIntegrationTest(IntegrationTestWebAppFactory appFactor
             DELETE FROM attendance.events;
             DELETE FROM attendance.tickets;
             DELETE FROM attendance.event_statistics;
-            """, cancellationToken);
+            """,
+            cancellationToken);
     }
 
     public async Task<Guid> CreateAttendeeAsync(Guid attendeeId, CancellationToken cancellationToken)

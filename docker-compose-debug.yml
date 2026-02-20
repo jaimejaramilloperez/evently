@@ -51,6 +51,53 @@ services:
         condition: service_healthy
         restart: true
 
+  evently.ticketing.api:
+    container_name: evently.ticketing.api
+    image: ${DOCKER_REGISTRY-}evently.ticketing.api:${DOCKER_IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: src/Api/Evently.Ticketing.Api/Dockerfile
+      target: ${DOCKER_BUILD_TARGET}
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+    restart: unless-stopped
+    ports:
+      - ${TICKETING_HTTP_PORT}:${TICKETING_HTTP_PORT}
+      - ${TICKETING_HTTPS_PORT}:${TICKETING_HTTPS_PORT}
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: 1
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT}
+      ASPNETCORE_HTTP_PORTS: ${TICKETING_HTTP_PORT}
+      ASPNETCORE_HTTPS_PORTS: ${TICKETING_HTTPS_PORT}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: ${TICKETING_CERTIFICATE_PATH}
+      ASPNETCORE_Kestrel__Certificates__Default__Password: ${TICKETING_CERTIFICATE_PASSWORD}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL}
+      Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
+      ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
+      ConnectionStrings__Cache: ${CACHE_CONNECTION_STRING}
+      ConnectionStrings__Queue: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@evently.queue"
+      Authentication_Audience: ${AUTHENTICATION_AUDIENCE}
+      Authentication__TokenValidationParameters__ValidIssuers__1: ${AUTHENTICATION_VALID_ISSUERS_1}
+      Authentication__TokenValidationParameters__ValidIssuers__2: ${AUTHENTICATION_VALID_ISSUERS_2}
+      Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
+      Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
+      KeyCloak__HealthUrl: ${KEYCLOAK_HEALTH_Url}
+      RabbitMq__User: ${RABBITMQ_USER}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+    volumes:
+      - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
+    depends_on:
+      evently.database:
+        condition: service_healthy
+        restart: true
+      evently.cache:
+        condition: service_healthy
+        restart: true
+      evently.queue:
+        condition: service_healthy
+        restart: true
+
   evently.gateway:
     container_name: evently.gateway
     image: ${DOCKER_REGISTRY-}evently.gateway:${DOCKER_IMAGE_TAG}
@@ -74,12 +121,18 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
       OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL}
       Serilog__WriteTo__1__Args__serverUrl: ${SEQ_SERVER_URL}
+      ConnectionStrings__Database: ${DATABASE_CONNECTION_STRING}
+      ConnectionStrings__Cache: ${CACHE_CONNECTION_STRING}
+      ConnectionStrings__Queue: "amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@evently.queue"
       Authentication_Audience: ${AUTHENTICATION_AUDIENCE}
       Authentication__TokenValidationParameters__ValidIssuers__1: ${AUTHENTICATION_VALID_ISSUERS_1}
       Authentication__TokenValidationParameters__ValidIssuers__2: ${AUTHENTICATION_VALID_ISSUERS_2}
       Authentication__MetadataAddress: ${AUTHENTICATION_METADATA_ADDRESS}
       Authentication__RequireHttpsMetadata: ${AUTHENTICATION_REQUIRE_HTTPS_METADATA}
+      RabbitMq__User: ${RABBITMQ_USER}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
       ReverseProxy__Clusters__evently-cluster__Destinations__evently-api__Address: "https://evently.api:${HTTPS_PORT}"
+      ReverseProxy__Clusters__evently-ticketing-cluster__Destinations__evently-ticketing-api__Address: "https://evently.ticketing.api:${TICKETING_HTTPS_PORT}"
     volumes:
       - ~/.microsoft/usersecrets/:/home/app/.microsoft/usersecrets:ro
 

@@ -2,6 +2,7 @@
 
 internal static class Permissions
 {
+    internal const string GetCustomer = "users:read";
     internal const string GetCart = "carts:read";
     internal const string AddToCart = "carts:add";
     internal const string RemoveFromCart = "carts:remove";

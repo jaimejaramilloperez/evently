@@ -3,6 +3,7 @@
   <Folder Name="/src/Api/">
     <Project Path="src/Api/Evently.Api/Evently.Api.csproj" />
     <Project Path="src/Api/Evently.Gateway/Evently.Gateway.csproj" />
+    <Project Path="src/Api/Evently.Ticketing.Api/Evently.Ticketing.Api.csproj" />
   </Folder>
 
   <Folder Name="/src/Common/">

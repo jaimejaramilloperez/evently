@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../Api/Evently.Api/Evently.Api.csproj" />
+    <ProjectReference Include="../../../../Api/Evently.Ticketing.Api/Evently.Ticketing.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

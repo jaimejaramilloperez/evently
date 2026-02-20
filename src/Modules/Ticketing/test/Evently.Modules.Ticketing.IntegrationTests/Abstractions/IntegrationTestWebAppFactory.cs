@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Evently.Ticketing.Api;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging.Abstractions;
 using Testcontainers.PostgreSql;
@@ -6,7 +7,7 @@ using Testcontainers.Redis;
 
 namespace Evently.Modules.Ticketing.IntegrationTests.Abstractions;
 
-public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class IntegrationTestWebAppFactory : WebApplicationFactory<ITicketingApiMarker>, IAsyncLifetime
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder("postgres:18.1-alpine3.23")
         .WithDatabase("evently")

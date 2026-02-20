@@ -1,27 +1,28 @@
-﻿using Evently.Common.Domain.Results;
+﻿using System.Net;
 
 namespace Evently.IntegrationTests.Abstractions;
 
 internal static class Poller
 {
-    private static readonly Error Timeout = Error.Failure("Poller.Timeout", "The poller has time out");
-
-    internal static async Task<Result<T>> WaitAsync<T>(TimeSpan timeout, Func<Task<Result<T>>> func)
+    internal static async Task<HttpResponseMessage> WaitAsync(
+        TimeSpan timeout,
+        Func<Task<HttpResponseMessage>> func,
+        CancellationToken cancellationToken = default)
     {
-        using PeriodicTimer timer = new(TimeSpan.FromSeconds(1));
+        using PeriodicTimer timer = new(TimeSpan.FromSeconds(2));
 
         DateTime endTimeUtc = DateTime.UtcNow.Add(timeout);
 
-        while (DateTime.UtcNow < endTimeUtc && await timer.WaitForNextTickAsync())
+        while (DateTime.UtcNow < endTimeUtc && await timer.WaitForNextTickAsync(cancellationToken))
         {
-            Result<T> result = await func();
+            HttpResponseMessage result = await func();
 
-            if (result.IsSuccess)
+            if (result.IsSuccessStatusCode)
             {
                 return result;
             }
         }
 
-        return Result.Failure<T>(Timeout);
+        return new HttpResponseMessage(HttpStatusCode.RequestTimeout);
     }
 }

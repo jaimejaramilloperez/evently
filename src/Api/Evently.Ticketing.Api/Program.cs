@@ -1,16 +1,14 @@
 using System.Diagnostics;
-using Evently.Api.Extensions;
-using Evently.Api.Middlewares;
-using Evently.Api.OpenApi;
-using Evently.Api.OpenTelemetry;
-using Evently.Api.Serialization;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Common.Infrastructure.Configuration;
 using Evently.Common.Presentation.Endpoints;
-using Evently.Modules.Attendance.Infrastructure;
-using Evently.Modules.Events.Infrastructure;
-using Evently.Modules.Users.Infrastructure;
+using Evently.Modules.Ticketing.Infrastructure;
+using Evently.Ticketing.Api.Extensions;
+using Evently.Ticketing.Api.Middlewares;
+using Evently.Ticketing.Api.OpenApi;
+using Evently.Ticketing.Api.OpenTelemetry;
+using Evently.Ticketing.Api.Serialization;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Http.Features;
 using Serilog;
@@ -37,23 +35,17 @@ builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = 
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddApplication([
-    Evently.Modules.Events.Application.AssemblyReference.Assembly,
-    Evently.Modules.Users.Application.AssemblyReference.Assembly,
-    Evently.Modules.Attendance.Application.AssemblyReference.Assembly,
-]);
+builder.Services.AddApplication([Evently.Modules.Ticketing.Application.AssemblyReference.Assembly]);
 
-builder.Services.AddInfrastructure(DiagnosticsConfig.ServiceName, builder.Configuration, [
-    EventsModule.ConfigureConsumers(builder.Configuration.GetConnectionStringOrThrow("Cache")),
-    AttendanceModule.ConfigureConsumers,
-    UsersModule.ConfigureConsumers,
-], builder.Configuration.GetConnectionStringOrThrow("Queue"));
+builder.Services.AddInfrastructure(
+    DiagnosticsConfig.ServiceName,
+    builder.Configuration,
+    [TicketingModule.ConfigureConsumers],
+    builder.Configuration.GetConnectionStringOrThrow("Queue"));
 
-builder.Configuration.AddModuleConfiguration(["events", "users", "attendance"]);
+builder.Configuration.AddModuleConfiguration(["ticketing"]);
 
-builder.Services.AddEventsModule(builder.Configuration);
-builder.Services.AddUsersModule(builder.Configuration);
-builder.Services.AddAttendanceModule(builder.Configuration);
+builder.Services.AddTicketingModule(builder.Configuration);
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionStringOrThrow("Database"))
@@ -69,7 +61,7 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI(options =>
     {
-        options.DocumentTitle = "Evently Api - Swagger Docs";
+        options.DocumentTitle = "Evently Ticketing Api - Swagger Docs";
         options.SwaggerEndpoint("/openapi/v1.json", "OpenAPI V1");
         options.DisplayRequestDuration();
     });

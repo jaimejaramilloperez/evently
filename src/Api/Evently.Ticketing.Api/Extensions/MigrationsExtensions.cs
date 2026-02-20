@@ -1,17 +1,13 @@
-using Evently.Modules.Attendance.Infrastructure.Database;
-using Evently.Modules.Events.Infrastructure.Database;
-using Evently.Modules.Users.Infrastructure.Database;
+using Evently.Modules.Ticketing.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace Evently.Api.Extensions;
+namespace Evently.Ticketing.Api.Extensions;
 
 public static class MigrationsExtensions
 {
     internal static void ApplyMigrations(this WebApplication app)
     {
-        app.ApplyMigration<EventsDbContext>();
-        app.ApplyMigration<UsersDbContext>();
-        app.ApplyMigration<AttendanceDbContext>();
+        app.ApplyMigration<TicketingDbContext>();
     }
 
     private static void ApplyMigration<TDbContext>(this WebApplication app)

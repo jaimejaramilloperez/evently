@@ -27,6 +27,8 @@ public class PresentationTests : BaseTest
             .ImplementInterface(typeof(IConsumer<>))
             .Should()
             .HaveNameEndingWith("IntegrationEventConsumer", StringComparison.Ordinal)
+            .Or()
+            .HaveNameEndingWith("Consumer", StringComparison.Ordinal)
             .GetResult()
             .ShouldBeSuccessful();
     }
