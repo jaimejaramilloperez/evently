@@ -15,7 +15,7 @@ internal sealed class GetUserProfile : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users/profile", async (ClaimsPrincipal user, ISender sender, CancellationToken cancellationToken) =>
+        app.MapGet("/users/profile", async (ClaimsPrincipal user, ISender sender, CancellationToken cancellationToken) =>
         {
             Guid userId = user.GetUserId();
 

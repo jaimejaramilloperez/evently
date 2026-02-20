@@ -21,7 +21,7 @@ internal sealed class UpdateUserProfile : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPut("users/profile", async (Request request, ClaimsPrincipal user, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPut("/users/profile", async (Request request, ClaimsPrincipal user, ISender sender, CancellationToken cancellationToken) =>
         {
             Guid userId = user.GetUserId();
 

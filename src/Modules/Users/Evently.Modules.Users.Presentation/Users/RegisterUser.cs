@@ -21,7 +21,7 @@ internal sealed class RegisterUser : IEndpoint
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("users/register", async (Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("/users/register", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             RegisterUserCommand command = new()
             {
