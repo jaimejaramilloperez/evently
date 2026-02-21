@@ -1,0 +1,56 @@
+### Get All Events
+GET {{api_address}}/api/events
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Event by Id
+GET {{api_address}}/api/events/019c6c4a-0798-70ae-b6be-0c48fe3109b6
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Search Events
+GET {{api_address}}/api/events/search?page=1&page_size=10&start_date=2025-01-01
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Create an Event
+POST {{api_address}}/api/events
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "categoryId": "019c6c3e-0d98-765f-99a1-3a5ca1d64b5d",
+  "title": "event",
+  "description": "event description",
+  "location": "online",
+  "startsAtUtc": "2026-02-22T20:54:51.913Z",
+  "endsAtUtc": "2026-02-22T23:54:51.913Z"
+}
+
+
+### Reschedule an Event
+PUT {{api_address}}/api/events/019c6c4a-0798-70ae-b6be-0c48fe3109b6/reschedule
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "startsAtUtc": "2026-03-11T20:54:51.913Z",
+  "endsAtUtc": "2026-03-12T23:54:51.913Z"
+}
+
+
+### Publish an Event
+PUT {{api_address}}/api/events/019c6c4a-0798-70ae-b6be-0c48fe3109b6/publish
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Cancel an Event
+DELETE {{api_address}}/api/events/019c6c4a-0798-70ae-b6be-0c48fe3109b6/cancel
+Accept: application/json
+Authorization: Bearer {{access_token}}

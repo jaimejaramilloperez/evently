@@ -1,0 +1,38 @@
+### Get Categories
+GET {{api_address}}/api/categories
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Category by Id
+GET {{api_address}}/api/categories/019c6c3e-0d98-765f-99a1-3a5ca1d64b5d
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Create Category
+POST {{api_address}}/api/categories
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name": "movies"
+}
+
+
+### Update Category
+PUT {{api_address}}/api/categories/019c80b1-610b-7b0d-8d3a-7e14a4c100d8
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "name": "movies - updated"
+}
+
+
+### Archive Category
+PUT {{api_address}}/api/categories/019c80b1-610b-7b0d-8d3a-7e14a4c100d8/archive
+Accept: application/json
+Authorization: Bearer {{access_token}}

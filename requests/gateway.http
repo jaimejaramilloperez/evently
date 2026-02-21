@@ -1,0 +1,4 @@
+### Health
+GET {{gateway__address}}/health
+Accept: application/json
+Authorization: Bearer {{access_token}}

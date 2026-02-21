@@ -1,0 +1,4 @@
+### Get Customer
+GET {{ticketing_api_address}}/api/customers/profile
+Accept: application/json
+Authorization: Bearer {{access_token}}

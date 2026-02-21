@@ -1,0 +1,36 @@
+### Get Ticket Type by Id
+GET {{api_address}}/api/ticket-types/019c80b4-4863-7c63-ad16-ba08990288a0
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get All Ticket Types for an event
+GET {{api_address}}/api/ticket-types?eventId=019c6c4a-0798-70ae-b6be-0c48fe3109b6
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Create a Ticket Type
+POST {{api_address}}/api/ticket-types
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "eventId": "019c6c4a-0798-70ae-b6be-0c48fe3109b6",
+  "name": "VIP",
+  "price": 200,
+  "currency": "USD",
+  "quantity": 50
+}
+
+
+### Update a Ticket Type price
+PUT {{api_address}}/api/ticket-types/019c80b4-4863-7c63-ad16-ba08990288a0/price
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "price": 800
+}

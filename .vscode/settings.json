@@ -1,4 +1,17 @@
 {
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJMUllUMGNiU3F4THBQS2JLQk9DVG5IbzIwZWpfamRGTVJqd1htdjI1TXBzIn0.eyJleHAiOjE3NzE2ODc4MDgsImlhdCI6MTc3MTY4NDIwOCwianRpIjoib25ydHJ0OjEyZmIzODhlLTRiOGEtNTU1Ni0xM2JmLTY3YWRhMmQ1MWZkMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MTgwMDAvcmVhbG1zL2V2ZW50bHkiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWFiZDU0ZGEtZGFlZi00ZjAzLTkwNWEtMmE3ZGI3ZmU4MWY0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiZXZlbnRseS1wdWJsaWMtY2xpZW50Iiwic2lkIjoiajNzR2x2MEZQRlpXNHY2M3BFQ3BhQXQ2IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLWV2ZW50bHkiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6ImpvaG4gZG9lIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiam9obkBtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJqb2huIiwiZmFtaWx5X25hbWUiOiJkb2UiLCJlbWFpbCI6ImpvaG5AbWFpbC5jb20ifQ.cj72Evq_BN7-xBfRobp0g8I4nNAR6zBGSLPmzVjTOCbLdT_w1c-Qf0HaH8Qsp4OiD9aYeeixq_kX9S_-tCsv8u-1_UKsnQj2TQU07hYoind-mXNmTVM3UqECMZfE-Xx_xtOK_bH4vVsq5MrCQx5shWR59Lr0CHLWKpE-6M8A4otMVok74RFZ8SDiIiDujSYTdR-3E3i0-HeUxFvfn1zI48DdOWdqSAR3DL0BNC8CtSMOm4Xj4Eu8ECoaOnWpbhIYv9EmtiqU89kL5-1mGFZbhzdvSn-hpwCHjbrSdQdhoV5DjJJhUF-Y8SXwXx3qturHunTCWkxYeFdUk5hg8SG8kA"
+    },
+    "dev": {
+      "identity_client_secret": "eHPYDdH5j8eutm54aApbgb4khT3vQXPM",
+      "identity_address": "http://localhost:18000",
+      "identity_health_address": "http://localhost:18001",
+      "api_address": "https://localhost:5001",
+      "ticketing_api_address": "https://localhost:5101",
+      "gateway__address": "https://localhost:3001"
+    }
+  },
   "cSpell.words": [
     "amqp",
     "appsettings",

@@ -1,0 +1,33 @@
+### Get Customer Cart
+GET {{ticketing_api_address}}/api/carts
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Add Item to Customer Cart
+PUT {{ticketing_api_address}}/api/carts/add
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "ticketTypeId": "019c80c3-7a84-736a-9f09-8c544f19dec1",
+  "quantity": 3
+}
+
+
+### Remove Item from Customer Cart
+PUT {{ticketing_api_address}}/api/carts/remove
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "ticketTypeId": "019c80c3-7a84-736a-9f09-8c544f19dec1"
+}
+
+
+### Clear Customer cart
+DELETE {{ticketing_api_address}}/api/carts
+Accept: application/json
+Authorization: Bearer {{access_token}}

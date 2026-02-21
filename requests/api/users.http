@@ -1,0 +1,29 @@
+### Get User
+GET {{api_address}}/api/users/profile
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Register User
+POST {{api_address}}/api/users/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "john.doe@mail.com",
+  "password": "StrongPassword123!",
+  "firstName": "john",
+  "lastName": "doe"
+}
+
+
+### Update User
+PUT {{api_address}}/api/users/profile
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "firstName": "john",
+  "lastName": "doe"
+}

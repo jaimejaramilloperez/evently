@@ -1,0 +1,39 @@
+### Health
+GET {{identity_health_address}}/health
+Accept: application/json
+
+
+### Access Token
+# @name login
+POST {{identity_address}}/realms/evently/protocol/openid-connect/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password
+&client_id=evently-public-client
+&scope=openid email
+&username=john@mail.com
+&password=john123
+
+
+### Refresh Token
+@refresh_token = {{login.response.body.refresh_token}}
+
+POST {{identity_address}}/realms/evently/protocol/openid-connect/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token
+&client_id=evently-public-client
+&refresh_token={{refresh_token}}
+
+
+### Client Credentials Flow
+POST {{identity_address}}/realms/evently/protocol/openid-connect/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=evently-confidential-client
+&client_secret={{identity_client_secret}}
+&scope=openid

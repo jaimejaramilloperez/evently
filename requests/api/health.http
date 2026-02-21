@@ -1,0 +1,3 @@
+### Health
+GET {{api_address}}/health
+Accept: application/json

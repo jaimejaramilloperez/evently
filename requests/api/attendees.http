@@ -1,0 +1,15 @@
+### Get Attendee
+GET {{api_address}}/api/attendees/profile
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Check-in with a ticket
+PUT {{api_address}}/api/attendees/check-in
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "ticketId": "019c80c5-9ab5-7b72-9c30-66e8eb1728dc"
+}

@@ -1,0 +1,3 @@
+### Health
+GET {{ticketing_api_address}}/health
+Accept: application/json

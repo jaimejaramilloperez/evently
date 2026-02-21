@@ -1,0 +1,16 @@
+### Get All Orders
+GET {{ticketing_api_address}}/api/orders
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Order by id
+GET {{ticketing_api_address}}/api/orders/019c80c5-7db6-7500-8b8b-c7aaa312b83e
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Create Order
+POST {{ticketing_api_address}}/api/orders
+Accept: application/json
+Authorization: Bearer {{access_token}}

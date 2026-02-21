@@ -1,0 +1,16 @@
+### Get Ticket by Id
+GET {{ticketing_api_address}}/api/tickets/019c53c9-3156-71c6-973d-9cef1a3b8740
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Ticket by Code
+GET {{ticketing_api_address}}/api/tickets/code/tc_019c80c5-9ab5-7d9f-8f82-c93565af23cd
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+
+### Get Tickets for an Order
+GET {{ticketing_api_address}}/api/tickets/order/019c53c8-dbf0-7f04-962b-7b6784fa5e66
+Accept: application/json
+Authorization: Bearer {{access_token}}

@@ -1,0 +1,4 @@
+### Get Statistics for an Event
+GET {{api_address}}/api/event-statistics/019c80c3-4a11-72b6-ac69-2511b10c40e8
+Accept: application/json
+Authorization: Bearer {{access_token}}
