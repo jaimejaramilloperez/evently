@@ -177,8 +177,7 @@ services:
     command: start-dev --import-realm
     ports:
       - 18000:8080
-    expose:
-      - 9000
+      - 18001:9000
     environment:
       KC_HEALTH_ENABLED: "true"
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_USERNAME}
@@ -210,7 +209,7 @@ services:
 
   evently.pgAdmin:
     container_name: evently.pgAdmin
-    image: dpage/pgadmin4:9.11.0
+    image: dpage/pgadmin4:9.12.0
     restart: unless-stopped
     ports:
       - 8080:80

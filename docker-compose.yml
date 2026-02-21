@@ -71,7 +71,7 @@ services:
 
   evently.pgAdmin:
     container_name: evently.pgAdmin
-    image: dpage/pgadmin4:9.11.0
+    image: dpage/pgadmin4:9.12.0
     restart: unless-stopped
     ports:
       - 8080:80
