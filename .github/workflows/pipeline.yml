@@ -44,7 +44,7 @@ jobs:
         run: dotnet build Evently.slnx -c Release --no-restore --nologo
 
       - name: Test
-        run: dotnet test Evently.slnx -c Release --no-restore --no-build --nologo --verbosity quiet
+        run: dotnet test --solution Evently.slnx -c Release --no-restore --no-build --verbosity quiet
 
       - name: Publish
         run: dotnet publish src/Evently.Api -c Release --no-restore --no-build --nologo -p:PublishDir=publish -p:UseAppHost=false -p:DebugType=None -p:DebugSymbols=false
